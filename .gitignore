@@ -1,0 +1,10 @@
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+#npm
+node_modules
+*.log
+*.gz
+
+.env
