@@ -8,6 +8,7 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 
 const { pages } = require('./routes')
+const db = require('./models')
 
 // setting
 const app = express()
