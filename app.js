@@ -8,7 +8,6 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 
 const { pages } = require('./routes')
-const db = require('./models')
 
 // setting
 const app = express()
@@ -16,6 +15,7 @@ const port = process.env.PORT || 3000
 
 app.engine('hbs', handlebars.engine({ extname: '.hbs' }))
 app.set('view engine', 'hbs')
+app.use(express.urlencoded({ extended: true }))
 
 app.use(pages)
 
