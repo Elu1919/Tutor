@@ -12,20 +12,22 @@ const userController = {
     res.render('signup')
   },
   signUp: (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
+    if (req.body.password !== req.body.passwordCheck) throw new Error('密碼 與 確認密碼 需要輸入相同！')
+    User.findOne({ where: { email: req.body.email } })
+      .then(user => {
+        if (user) throw new Error('此 Email 已經註冊！')
+        return bcrypt.hash(req.body.password, 10)
+      })
       .then(hash => User.create({
         name: req.body.name,
         email: req.body.email,
-        password: hash,
-        is_teacher: false,
-        avatar: 'https://upload.cc/i1/2023/08/27/bex9jv.png',
-        info: '',
-        total_lesson_time: 0,
-        week_lesson_time: 0
+        password: hash
       }))
       .then(() => {
+        req.flash('success_messages', '成功註冊帳號！')
         res.redirect('/login')
       })
+      .catch(err => next(err))
   },
   logout: (req, res, next) => {
     res.render('home')
