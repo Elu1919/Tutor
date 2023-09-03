@@ -1,4 +1,7 @@
 'use strict';
+
+const { DATE } = require('sequelize');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -23,23 +26,26 @@ module.exports = {
       },
       is_teacher: {
         allowNull: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       avatar: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'https://upload.cc/i1/2023/08/27/bex9jv.png'
       },
       info: {
-        allowNull: true,
         type: Sequelize.TEXT
       },
       total_lesson_time: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       week_lesson_time: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
       },
       created_at: {
         allowNull: false,
