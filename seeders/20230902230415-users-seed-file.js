@@ -10,8 +10,8 @@ module.exports = {
       Array.from({ length: 50 }, (
         user,
         id,
-        weekTime = Math.floor(Math.random(56) * 10 + 1) * 0.5,
-        totalTime = weekTime * Math.floor(Math.random(30) * 10 + 1),
+        weekTime = Math.floor(Math.random() * 10 + 1) * 0.5,
+        totalTime = weekTime * Math.floor(Math.random() * 10 + 1),
         isTeacher = (id + 1) % 2 === 0 ? 0 : 1) => (
         {
           name: `user${id + 1}`,
