@@ -14,17 +14,66 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse"
+           id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link"
+               href="/users/{{user.id}}">{{user.name}}</a>
+          </li>
+          {{#if user.is_teacher}}
+          <li class="nav-item">
+            <a class="nav-link"
+               href="#">課程資訊</a>
+          </li>
+          {{/if}}
+          {{#ifCond user.is_teacher false}}
+          <li class="nav-item">
+            <a class="nav-link"
+               href="/teachers/create">成為老師</a>
+          </li>
+          {{/ifCond}}
+          {{#if user.is_admin}}
+          <li class="nav-item">
+            <a class="nav-link"
+               href="/admin/users">使用者清單</a>
+          </li>
+          {{/if}}
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse"
            id="navbarCollapse">
         <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-          <li class="nav-item d-inline-flex align-items-center">
-            <span class="text-white nav-link">Hi, {{ user.name }}</span>
-          </li>
           <li class="nav-item">
             {{#if user.is_admin}}
-            <a href="/logout/admin"><button class="btn btn-outline-success my-sm-0 my-2">Logout</button></a>
+            <a href="/logout/admin"><button class="btn btn-link text-decoration-none text-light my-sm-0 my-2">Log
+                Out</button></a>
             {{else}}
-            <a href="/logout"><button class="btn btn-outline-success my-sm-0 my-2">Logout</button></a>
+            <a href="/logout"><button class="btn btn-link text-decoration-none text-light my-sm-0 my-2">Log
+                Out</button></a>
             {{/if}}
+          </li>
+        </ul>
+      </div>
+      {{else}}
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
+              aria-controls="navbarCollapse"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse"
+           id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item me-2">
+            <a href="/signup"><button class="btn btn-light my-sm-0 my-2">Sign
+                Up</button></a>
+          </li>
+          <li class="nav-item me-2">
+            <a href="/login"><button class="btn btn-light my-sm-0 my-2">Sign
+                In</button></a>
           </li>
         </ul>
       </div>
