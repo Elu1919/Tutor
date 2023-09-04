@@ -7,11 +7,13 @@ const adminController = {
   },
   login: (req, res, next) => {
     req.flash('success_messages', '成功登入！')
-    res.render('admin/users')
+    res.redirect('/admin/users')
   },
-  logout: (req, res, next) => {
+  logout: (req, res) => {
     req.flash('success_messages', '登出成功！')
-    req.logout()
+    req.logout(err => {
+      if (err) return next(err)
+    })
     res.redirect('admin/login')
   }
 }

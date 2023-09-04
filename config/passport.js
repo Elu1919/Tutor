@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs')
 
 const { User, Admin } = require('../models')
 
+let isAdmin = 0
+
 userPassport.use(new LocalStrategy(
   {
     usernameField: 'email',
@@ -15,6 +17,7 @@ userPassport.use(new LocalStrategy(
   (req, email, password, cb) => {
 
     if (req.params.admin === 'admin') {
+      isAdmin = 1
       Admin.findOne({ where: { email } })
         .then(admin => {
           if (!admin) return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤！'))
@@ -24,6 +27,7 @@ userPassport.use(new LocalStrategy(
           })
         })
     } else {
+      isAdmin = 0
       User.findOne({ where: { email } })
         .then(user => {
           if (!user) return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤！'))
@@ -41,10 +45,17 @@ userPassport.serializeUser((user, cb) => {
   cb(null, user.id)
 })
 userPassport.deserializeUser((id, cb) => {
-  User.findByPk(id).then(user => {
-    user = user.toJSON()
-    return cb(null, user)
-  })
+  if (isAdmin <= 0) {
+    User.findByPk(id).then(user => {
+      user = user.toJSON()
+      return cb(null, user)
+    })
+  } else {
+    Admin.findByPk(id).then(admin => {
+      admin = admin.toJSON()
+      return cb(null, admin)
+    })
+  }
 })
 
 

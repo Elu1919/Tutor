@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-
+const { authenticated } = require('../../middleware/auth')
 const { generalErrorHandler } = require('../../middleware/error-handler')
 const passport = require('../../config/passport')
 const userController = require('../../controller/pages/user-controller')
@@ -21,7 +21,7 @@ router.get('/logout/admin', adminController.logout)
 router.get('/logout', userController.logout)
 
 router.use('/admin', admin)
-router.use('/', home)
+router.use('/', authenticated, home)
 
 router.use('/', generalErrorHandler)
 
