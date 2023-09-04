@@ -1,12 +1,13 @@
-const userPassport = require('passport')
+const passport = require('passport')
 const LocalStrategy = require('passport-local')
+const GoogleStrategy = require('passport-google-oauth20').Strategy
 const bcrypt = require('bcryptjs')
 
 const { User, Admin } = require('../models')
 
 let isAdmin = 0
 
-userPassport.use(new LocalStrategy(
+passport.use(new LocalStrategy(
   {
     usernameField: 'email',
     passwordField: 'password',
@@ -41,10 +42,10 @@ userPassport.use(new LocalStrategy(
 ))
 
 // serialize and deserialize user
-userPassport.serializeUser((user, cb) => {
+passport.serializeUser((user, cb) => {
   cb(null, user.id)
 })
-userPassport.deserializeUser((id, cb) => {
+passport.deserializeUser((id, cb) => {
   if (isAdmin <= 0) {
     User.findByPk(id).then(user => {
       user = user.toJSON()
@@ -58,6 +59,38 @@ userPassport.deserializeUser((id, cb) => {
   }
 })
 
+// Google Login
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK,
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const { name, email } = profile._json
+
+      User.findByPk(email, { raw: true })
+        .then(user => {
+          console.log(user)
+          if (user) return done(null, user)
+          console.log('init')
+          const randomPassword = Math.random().toString(36).slice(-8)
+          bcrypt
+            .genSalt(10)
+            .then(salt => bcrypt.hash(randomPassword, salt))
+            .then(hash => User.create({
+              name,
+              email,
+              password: hash
+            }))
+            .then(user => done(null, user))
+            .catch(err => done(err, false))
+        })
+    }
+  )
+)
 
 
-module.exports = userPassport
+
+module.exports = passport

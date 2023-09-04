@@ -7,6 +7,7 @@ const userController = require('../../controller/pages/user-controller')
 const adminController = require('../../controller/pages/admin-controller')
 const home = require('./modules/home')
 const admin = require('./modules/admin')
+const auth = require('./modules/auth')
 
 router.get('/login/admin', adminController.loginPage)
 router.get('/login', userController.loginPage)
@@ -21,6 +22,7 @@ router.get('/logout/admin', adminController.logout)
 router.get('/logout', userController.logout)
 
 router.use('/admin', admin)
+router.use('/auth', auth)
 router.use('/', authenticated, home)
 
 router.use('/', generalErrorHandler)
