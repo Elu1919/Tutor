@@ -13,7 +13,7 @@ module.exports = {
       Array.from({ length: 25 }, (
         lesson,
         id,
-        teacherId = users[id * 2 + 1].id,
+        teacherId = users[(id + 1) * 2 - 2].id,
         time = Math.floor(Math.random() * 2) !== 0 ? 30 : 60,
         date = Math.floor(Math.random() * 5),
         totalScore = Math.floor(Math.random() * 500 + 1),

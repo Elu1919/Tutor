@@ -6,7 +6,8 @@ const userController = {
     res.render('login')
   },
   login: (req, res, next) => {
-    res.render('login',)
+    req.flash('success_messages', '成功登入！')
+    res.redirect('/')
   },
   signUpPage: (req, res, next) => {
     res.render('signup')
@@ -30,7 +31,9 @@ const userController = {
       .catch(err => next(err))
   },
   logout: (req, res, next) => {
-    res.render('home')
+    req.flash('success_messages', '登出成功！')
+    req.logout()
+    res.redirect('/login')
   },
 }
 
