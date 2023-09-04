@@ -72,9 +72,7 @@ passport.use(
 
       User.findByPk(email, { raw: true })
         .then(user => {
-          console.log(user)
           if (user) return done(null, user)
-          console.log('init')
           const randomPassword = Math.random().toString(36).slice(-8)
           bcrypt
             .genSalt(10)
