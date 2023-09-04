@@ -34,7 +34,7 @@ const userController = {
     req.flash('success_messages', '登出成功！')
     req.logout()
     res.redirect('/login')
-  },
+  }
 }
 
 module.exports = userController
