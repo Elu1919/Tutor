@@ -31,7 +31,6 @@ const userController = {
       .catch(err => next(err))
   },
   logout: (req, res, next) => {
-    req.flash('success_messages', '登出成功！')
     req.logout(err => {
       if (err) return next(err)
     })
