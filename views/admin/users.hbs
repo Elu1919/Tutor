@@ -1,1 +1,24 @@
-<h3>ADMIN USERS</h3>
+<table class="table align-middle">
+  <thead class="table-dark">
+    <tr>
+      <th class="text-center col-3">編號</th>
+      <th class="text-center col-3">名字</th>
+      <th class="text-center col-3">是否是老師</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+    <tr>
+      <td class="text-center col-3">{{this.id}}</td>
+      <td class="text-center col-3">{{this.name}}</td>
+      <td class="text-center col-3">
+        {{#if this.is_teacher}}
+        老師
+        {{else}}
+        學生
+        {{/if}}
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
