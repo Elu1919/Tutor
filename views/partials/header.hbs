@@ -23,7 +23,7 @@
           {{#if user.is_teacher}}
           <li class="nav-item">
             <a class="nav-link"
-               href="#">課程資訊</a>
+               href="/teachers/{{user.id}}/personal">課程資訊</a>
           </li>
           {{/if}}
           {{#ifCond user.is_teacher false}}
