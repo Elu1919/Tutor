@@ -35,6 +35,15 @@ const userController = {
       if (err) return next(err)
     })
     res.redirect('/login')
+  },
+  getUser: (req, res, next) => {
+    res.render('user')
+  },
+  editUser: (req, res, next) => {
+    res.render('user-edit')
+  },
+  putUser: (req, res, next) => {
+
   }
 }
 

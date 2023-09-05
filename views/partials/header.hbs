@@ -16,10 +16,12 @@
       <div class="collapse navbar-collapse"
            id="navbarNav">
         <ul class="navbar-nav">
+          {{#ifCond user.is_admin false}}
           <li class="nav-item">
             <a class="nav-link"
                href="/users/{{user.id}}">{{user.name}}</a>
           </li>
+          {{/ifCond}}
           {{#if user.is_teacher}}
           <li class="nav-item">
             <a class="nav-link"
@@ -67,6 +69,7 @@
       <div class="collapse navbar-collapse"
            id="navbarNav">
         <ul class="navbar-nav">
+          {{#ifCond route 'login'}}
           <li class="nav-item me-2">
             <a href="/signup"><button class="btn btn-light my-sm-0 my-2">Sign
                 Up</button></a>
@@ -75,6 +78,7 @@
             <a href="/login"><button class="btn btn-light my-sm-0 my-2">Sign
                 In</button></a>
           </li>
+          {{/ifCond}}
         </ul>
       </div>
       {{/if}}
