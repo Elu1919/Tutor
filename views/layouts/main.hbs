@@ -13,7 +13,11 @@
 </head>
 
 <body class="d-flex flex-column h-100 bg-light">
+  {{#ifCond route 'admin'}}
+  {{> header-admin}}
+  {{else}}
   {{> header}}
+  {{/ifCond}}
   <main class="flex-shrink-0"
         role="main">
     <div class="album container pt-5">

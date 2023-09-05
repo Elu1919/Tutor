@@ -15,7 +15,7 @@ const authenticatedAdmin = (req, res, next) => {
     if (getUser(req).is_admin) return next()
     res.redirect('back')
   }
-  res.redirect('/login')
+  res.redirect('/login/admin')
 }
 
 const authenticatedTeacher = (req, res, next) => {

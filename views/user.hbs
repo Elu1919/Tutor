@@ -1,1 +1,73 @@
-<h3>User</h3>
+<div class="row justify-content-between">
+
+  <div class="col-3 p-4">
+    <img src="https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png"
+         class="img-fluid rounded-start mb-3"
+         alt="avatar">
+    <h3 class="mb-3 fw-bold">{{user.name}}</h3>
+    <h5 class="mb-1 fw-bold">About Me</h5>
+    <p class="mb-4">{{user.info}}</p>
+    <a href="/users/{{user.id}}/edit"><button class="btn btn-primary">Edit</button></a>
+  </div>
+
+  <div class="col-9 p-5">
+
+    <div class="mb-5"
+         name="new-schedule">
+      <h5 class="mb-3 fw-bold">New Schedule</h5>
+      <div class="row">
+
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text lh-1">Time:</p>
+              <p class="card-text lh-1">Teacher's Name:</p>
+              <p class="card-text lh-1">Session Link:</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="mb-5"
+         name="lesson-history">
+      <h5 class="mb-3 fw-bold">Lesson History</h5>
+      <div class="row">
+
+        <div class="col-sm-6">
+          <div class="d-flex justify-content-between">
+            <div class="col-2">
+              <img src="https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png"
+                   class="img-fluid rounded-start"
+                   alt="avatar">
+            </div>
+            <div class="card col-10">
+              <div class="my-auto mx-3 d-md-flex justify-content-md-between">
+                <h5 class="card-title lh-sm pt-1">{{user.name}}</h5>
+                <a class="btn btn-primary btn-base"
+                   href="#"
+                   role="button">Link</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="mb-5"
+         name="study-hours">
+      <h5 class="mb-3 fw-bold">我的學習時數名次</h5>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text lh-1">Ranking:</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
