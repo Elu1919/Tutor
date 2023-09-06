@@ -1,7 +1,6 @@
 <div class="my-4 col-9">
-  <form action="/users/:id?_method=PUT"
-        method="POST"
-        enctype="multipart/form-data">
+  <form action="/teachers/create"
+        method="POST">
     <div class="form-row mb-4">
       <label class="form-label"
              for="info">Your Introduction</label>
@@ -10,6 +9,7 @@
                 name="info"
                 placeholder="Introduction"
                 rows="3"
+                value="{{info}}"
                 required></textarea>
     </div>
     <div class="form-row mb-4">
@@ -48,16 +48,17 @@
     <div class="form-row mb-4">
       <label class="form-label">開放時間</label>
       <div>
-        <div class="form-check form-check-inline"
-             id="date"
-             name="date">
+        {{#each date}}
+        <div class="form-check form-check-inline">
           <input class="form-check-input border-2 border-primary"
                  type="checkbox"
-                 id="sun"
-                 value="1">
+                 id="week-day-{{this.id}}"
+                 name="date"
+                 value="{{this.id}}">
           <label class="form-check-label"
-                 for="sun">星期日</label>
+                 for="week-day-{{this.id}}">{{this.date}}</label>
         </div>
+        {{/each}}
       </div>
     </div>
     <button type="submit"
