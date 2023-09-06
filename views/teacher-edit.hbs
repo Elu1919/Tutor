@@ -1,4 +1,4 @@
-<div class="my-5">
+<div class="my-4 col-9">
   <form action="/users/:id?_method=PUT"
         method="POST"
         enctype="multipart/form-data">
@@ -21,7 +21,8 @@
                 name="info"
                 placeholder="Introduction"
                 rows="3"
-                required>{{user.info}}</textarea>
+                value=""
+                required></textarea>
     </div>
     <div class="form-row mb-4">
       <label class="form-label"
@@ -31,7 +32,8 @@
                 name="style"
                 placeholder="Teaching Style"
                 rows="3"
-                required>{{user.info}}</textarea>
+                value=""
+                required></textarea>
     </div>
     <div class="form-row mb-4">
       <label class="form-label"
@@ -63,7 +65,7 @@
         <div class="form-check form-check-inline"
              id="date"
              name="date">
-          <input class="form-check-input"
+          <input class="form-check-input border-2 border-primary"
                  type="checkbox"
                  id="sun"
                  value="1">
