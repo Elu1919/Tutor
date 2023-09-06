@@ -26,7 +26,7 @@ module.exports = {
           link: 'https://meet.google.com/?sjid=663613846954092567-AP',
           time: time,
           date: `${week[date]}${week[date + 1]}${week[date + 2]}`,
-          img: 'https://upload.cc/i1/2023/08/27/bex9jv.png',
+          img: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
           total_score: totalScore,
           score_count: scoreCount,
           created_at: new Date(),

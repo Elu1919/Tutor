@@ -14,31 +14,31 @@
       </div>
 
       <div class="row row-cols-1 row-cols-md-3 g-4">
-
-        <a href="/teachers/1"
+        {{#each lessons}}
+        <a href="/teachers/{{this.id}}"
            class="text-reset text-decoration-none">
-          <div class="col">
+          <div class="col h-100">
             <div class="card h-100">
-              <div class="row g-0 mt-4">
-                <div class="col-md-5">
-                  <img src="https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png"
+              <div class="row g-0 mt-2">
+                <div class="col-5">
+                  <img src="{{this.img}}"
                        class="img-fluid rounded"
                        alt="avatar">
                 </div>
-                <div class="col-md-7">
+                <div class="col-7">
                   <div class="card-body">
-                    <h5 class="card-title">{{user.name}}</h5>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <p class="card-text"><small class="text-muted">{{this.style}}</small></p>
                   </div>
                 </div>
               </div>
-              <div class="card-body">
-                <p class="card-text">{{user.info}}</p>
+              <div class="card-body pt-0">
+                <p class="card-text">{{this.info}}</p>
               </div>
             </div>
           </div>
         </a>
-
+        {{/each}}
       </div>
     </div>
     <div class="col-3">
@@ -70,12 +70,17 @@
   <div>
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link"
-             href="#">1</a></li>
-        <li class="page-item"><a class="page-link"
-             href="#">2</a></li>
-        <li class="page-item"><a class="page-link"
-             href="#">3</a></li>
+        {{#each pagination.pages}}
+        {{#ifCond this ../pagination.currentPage}}
+        <li class="page-item active"><a class="page-link"
+             href="#">{{this}}</a></li>
+        {{else}}
+        <li class="page-item">
+          <a class="page-link"
+             href="/?page={{this}}">{{this}}</a>
+        </li>
+        {{/ifCond}}
+        {{/each}}
       </ul>
     </nav>
   </div>

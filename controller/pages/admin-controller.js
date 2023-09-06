@@ -8,16 +8,19 @@ const adminController = {
     const limit = Number(req.query.limit) || DEFAULT_LIMIT
     const offset = getOffset(limit, page)
 
-    User.findAll({
+    return User.findAndCountAll({
       limit,
       offset,
       nest: true,
       raw: true
     })
-      .then(users => res.render('admin/users', {
-        users,
-        pagination: getPagination(limit, page, users.count)
-      }))
+      .then(users => {
+        const data = users.rows
+        res.render('admin/users', {
+          users: data,
+          pagination: getPagination(limit, page, users.count)
+        })
+      })
       .catch(err => next(err))
   },
   loginPage: (req, res, next) => {
