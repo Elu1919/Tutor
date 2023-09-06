@@ -1,5 +1,5 @@
 {{> header-admin route='admin'}}
-<table class="table align-middle">
+<table class="table align-middle mb-5">
   <thead class="table-dark">
     <tr>
       <th class="text-center col-3">編號</th>
@@ -23,3 +23,20 @@
     {{/each}}
   </tbody>
 </table>
+<div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {{#each pagination.pages}}
+      {{#ifCond this ../pagination.currentPage}}
+      <li class="page-item active"><a class="page-link"
+           href="#">{{this}}</a></li>
+      {{else}}
+      <li class="page-item">
+        <a class="page-link"
+           href="/admin/users?page={{this}}">{{this}}</a>
+      </li>
+      {{/ifCond}}
+      {{/each}}
+    </ul>
+  </nav>
+</div>

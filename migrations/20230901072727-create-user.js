@@ -32,7 +32,7 @@ module.exports = {
       avatar: {
         allowNull: false,
         type: Sequelize.STRING,
-        defaultValue: 'https://upload.cc/i1/2023/08/27/bex9jv.png'
+        defaultValue: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png'
       },
       info: {
         type: Sequelize.TEXT

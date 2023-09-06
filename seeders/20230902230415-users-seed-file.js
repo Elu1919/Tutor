@@ -18,7 +18,7 @@ module.exports = {
           email: `user${id + 1}@example.com`,
           password: hash,
           is_teacher: isTeacher,
-          avatar: 'https://upload.cc/i1/2023/08/27/bex9jv.png',
+          avatar: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
           info: faker.lorem.text(),
           total_lesson_time: totalTime,
           week_lesson_time: weekTime,
