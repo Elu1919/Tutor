@@ -1,1 +1,92 @@
-<h3>lesson</h3>
+<div class="row justify-content-between">
+
+  {{!-- left --}}
+  <div class="col-9 pe-4">
+    {{!-- personal --}}
+    <div class="row g-0 my-4">
+      <div class="col-md-4">
+        <img src="https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png"
+             class="img-fluid rounded mb-3"
+             alt="avatar">
+      </div>
+      <div class="col-md-7">
+        <div class="card-body">
+          <h1 class="mb-3 fw-bold mb-4">{{user.name}}</h1>
+          <h4 class="mb-1 fw-bold"><i class="fa-solid fa-heart"
+               style="color: #ffbb00;"></i> 4.5</h4>
+        </div>
+      </div>
+    </div>
+    {{!-- Introduction --}}
+    <div>
+      {{!-- Introduction --}}
+      <div class="mb-5">
+        <h5 class="mb-3 fw-bold">Introduction</h5>
+        <div class="row">
+          <p>{{user.info}}{{user.info}}{{user.info}}</p>
+        </div>
+      </div>
+      {{!-- Teaching Style --}}
+      <div class="mb-5">
+        <h5 class="mb-3 fw-bold">Teaching Style</h5>
+        <div class="row">
+          <p>{{user.info}}{{user.info}}{{user.info}}</p>
+        </div>
+      </div>
+      {{!-- Lesson History --}}
+      <div class="mb-5">
+        <h5 class="mb-3 fw-bold">Lesson History</h5>
+        <div class="row">
+          <div class="d-flex justify-content-between">
+            <div class="card col-1 bg-warning bg-opacity-75 me-1"
+                 style="min-width: 60px;">
+              <div class="m-auto">
+                <h6 class="card-title lh-sm pt-1 fw-bold">4.4</h6>
+              </div>
+            </div>
+            <div class="card bg-transparent border-0 col">
+              <div class="my-auto mx-3">
+                <h5 class="card-title lh-sm pt-1">Comment</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- right --}}
+  <div class="col-3">
+    <div class="card mx-auto my-3">
+      <div class="card-header">
+        <h5 class="my-auto">預約上課</h5>
+      </div>
+      <div class="card-body">
+
+        <form class="form-login"
+              action="/teachers/reserve"
+              method="POST">
+
+          <div class="form-row mt-3 mb-4">
+            <select class="form-select form-select-lg mb-3"
+                    id="reserve"
+                    name="reserve"
+                    aria-label=".form-select-lg example"
+                    required>
+              <option selected>Time</option>
+              <option value="1">09/26 (三) 18:00~18:30</option>
+              <option value="2">09/26 (三) 18:00~18:30</option>
+              <option value="3">09/26 (三) 18:00~18:30</option>
+            </select>
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-primary"
+                    type="submit">Summit</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+</div>
