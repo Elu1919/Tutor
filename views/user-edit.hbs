@@ -1,35 +1,40 @@
 <div class="my-5">
-  <form action="/users/:id?_method=PUT"
-        method="POST"
-        enctype="multipart/form-data">
-    <div class="form-row mb-5">
-      <input class="form-control"
-             type="text"
-             name="name"
-             id="name"
-             placeholder="Name"
-             value="{{user.name}}">
-    </div>
-    <div class="form-row mb-4">
-      <textarea class="form-control"
-                id="introduction"
-                name="introduction"
-                placeholder="Introduction"
-                rows="3">{{user.info}}</textarea>
-    </div>
-    <div class="form-row mb-5">
-      <label class="form-label"
-             for="avatar">You can upload avatar from local</label>
-      <input class="form-control"
-             type="file"
-             class="form-control-file"
-             id="avatar"
-             name="avatar">
-    </div>
-    <button type="submit"
-            class="btn btn-primary">Submit</button>
-    <a class="btn btn-outline-secondary"
-       href="javascript:history.back()">Back</a>
+       <form action="/users/:id?_method=PUT"
+             method="POST"
+             enctype="multipart/form-data">
+              <div class="form-row mb-5">
+                     <label class="form-label"
+                            for="name">Name</label>
+                     <input class="form-control"
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder="Name"
+                            value="{{user.name}}"
+                            required>
+              </div>
+              <div class="form-row mb-5">
+                     <label class="form-label"
+                            for="info">Introduction</label>
+                     <textarea class="form-control"
+                               id="info"
+                               name="info"
+                               placeholder="Introduction"
+                               rows="3">{{user.info}}</textarea>
+              </div>
+              <div class="form-row mb-5">
+                     <label class="form-label"
+                            for="avatar">You can upload avatar from local</label>
+                     <input class="form-control"
+                            type="file"
+                            class="form-control-file"
+                            id="avatar"
+                            name="avatar">
+              </div>
+              <button type="submit"
+                      class="btn btn-primary">Submit</button>
+              <a class="btn btn-outline-secondary"
+                 href="javascript:history.back()">Back</a>
 </div>
 </form>
 </div>
