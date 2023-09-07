@@ -1,3 +1,4 @@
+const { localFileHandler } = require('../../helpers/file-helpers')
 const { Lesson, User } = require('../../models')
 const weekDay = [
   { id: '1', date: '星期日' },
@@ -24,7 +25,6 @@ const teacherController = {
       ...lesson,
       averageScore: score / count
     }))
-    console.log(data)
 
     res.render('teacher', { lesson: data[0] })
   },
@@ -38,7 +38,30 @@ const teacherController = {
     })
   },
   putTeacher: (req, res, next) => {
-
+    const { name, info, style, time, link, date } = req.body
+    const { file } = req
+    if (!date) throw new Error('請選擇 開放時間 !!')
+    Promise.all([
+      Lesson.findByPk(req.params.id),
+      localFileHandler(file)
+    ])
+      .then(([lesson, filePath]) => {
+        if (!lesson) throw new Error("Lesson didn't exist!")
+        return lesson.update({
+          name,
+          info,
+          style,
+          time,
+          link,
+          date: date.toString().replaceAll(',', ''),
+          img: filePath || lesson.img
+        })
+      })
+      .then(() => {
+        req.flash('success_messages', '資訊修改成功！')
+        res.redirect(`/teachers/${req.params.id}/personal`)
+      })
+      .catch(err => next(err))
   },
   createNewTeacher: (req, res, next) => {
     const user = req.user

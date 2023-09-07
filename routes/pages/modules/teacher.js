@@ -1,5 +1,6 @@
 const express = require('express')
 const { authenticatedTeacher } = require('../../../middleware/auth')
+const upload = require('../../../middleware/multer')
 const teacherController = require('../../../controller/pages/teacher-controller')
 
 const router = express.Router()
@@ -10,7 +11,7 @@ router.post('/reserve', teacherController.postReserve)
 router.get('/:id/personal', authenticatedTeacher, teacherController.getTeacher)
 router.get('/:id/edit', authenticatedTeacher, teacherController.editTeacher)
 router.get('/:id', teacherController.getLesson)
-router.put('/:id', authenticatedTeacher, teacherController.putTeacher)
+router.put('/:id', upload.single('img'), authenticatedTeacher, teacherController.putTeacher)
 
 
 module.exports = router

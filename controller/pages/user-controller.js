@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const { localFileHandler } = require('../../helpers/file-helpers')
 const { User } = require('../../models')
 
 const userController = {
@@ -43,7 +44,25 @@ const userController = {
     res.render('user-edit')
   },
   putUser: (req, res, next) => {
-
+    const { name, info } = req.body
+    const { file } = req
+    Promise.all([
+      User.findByPk(req.params.id),
+      localFileHandler(file)
+    ])
+      .then(([user, filePath]) => {
+        if (!user) throw new Error("User didn't exist!")
+        return user.update({
+          name,
+          info,
+          avatar: filePath || user.avatar
+        })
+      })
+      .then(() => {
+        req.flash('success_messages', '資訊修改成功！')
+        res.redirect(`/users/${req.params.id}`)
+      })
+      .catch(err => next(err))
   }
 }
 
