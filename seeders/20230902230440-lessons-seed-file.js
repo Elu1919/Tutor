@@ -16,8 +16,8 @@ module.exports = {
         teacherId = users[(id + 1) * 2 - 2].id,
         time = Math.floor(Math.random() * 2) !== 0 ? 30 : 60,
         date = Math.floor(Math.random() * 5),
-        totalScore = Math.floor(Math.random() * 500 + 1),
-        scoreCount = Math.floor(Math.random() * 50 + 1)) => (
+        count = Math.floor(Math.random() * 50 + 1),
+        score = Math.floor(Math.random() * 10 + 1)) => (
         {
           teacher_id: teacherId,
           name: faker.person.jobTitle(),
@@ -27,8 +27,8 @@ module.exports = {
           time: time,
           date: `${week[date]}${week[date + 1]}${week[date + 2]}`,
           img: 'https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png',
-          total_score: totalScore,
-          score_count: scoreCount,
+          total_score: score * count,
+          score_count: count,
           created_at: new Date(),
           updated_at: new Date()
         }))

@@ -1,5 +1,5 @@
 <div class="my-4 col-9">
-       <form action="/teachers/{{user.id}}?_method=PUT"
+       <form action="/teachers/{{lesson.id}}?_method=PUT"
              method="POST"
              enctype="multipart/form-data">
               <div class="form-row mb-4">
@@ -21,8 +21,7 @@
                                name="info"
                                placeholder="Introduction"
                                rows="3"
-                               value="{{lesson.info}}"
-                               required></textarea>
+                               required>{{lesson.info}}</textarea>
               </div>
               <div class="form-row mb-4">
                      <label class="form-label"
@@ -32,8 +31,7 @@
                                name="style"
                                placeholder="Teaching Style"
                                rows="3"
-                               value=""
-                               required></textarea>
+                               required>{{lesson.style}}</textarea>
               </div>
               <div class="form-row mb-4">
                      <label class="form-label"
@@ -43,9 +41,14 @@
                              name="time"
                              aria-label=".form-select-lg example"
                              required>
-                            <option selected>請選擇時間</option>
-                            <option value="30">30 分鐘</option>
-                            <option value="60">60 分鐘</option>
+                            <option {{#ifCond
+                                    lesson.time
+                                    30}}selected{{/ifCond}}
+                                    value="30">30 分鐘</option>
+                            <option {{#ifCond
+                                    lesson.time
+                                    60}}selected{{/ifCond}}
+                                    value="60">60 分鐘</option>
                      </select>
               </div>
               <div class="form-row mb-4">
@@ -56,19 +59,23 @@
                             name="link"
                             id="link"
                             placeholder="Link"
-                            value=""
+                            value="{{lesson.link}}"
                             required>
               </div>
               <div class="form-row mb-4">
                      <label class="form-label">開放時間</label>
                      <div>
-                            {{#each date}}
+                            {{#each weekDay}}
                             <div class="form-check form-check-inline">
                                    <input class="form-check-input border-2 border-primary"
                                           type="checkbox"
                                           id="week-day-{{this.id}}"
-                                          value="{{this.id}}">
-                                   <label class="form-check-label"
+                                          value="{{this.id}}"
+                                          {{#ifWeekDay
+                                          ../date
+                                          this.id}}checked{{/ifWeekDay}}>
+                                   <label class="
+                                          form-check-label"
                                           for="week-day-{{this.id}}">{{this.date}}</label>
                             </div>
                             {{/each}}

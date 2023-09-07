@@ -5,13 +5,13 @@
     {{!-- personal --}}
     <div class="row g-0 my-4">
       <div class="col-md-4">
-        <img src="https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png"
+        <img src="{{lesson.img}}"
              class="img-fluid rounded mb-3"
              alt="avatar">
       </div>
       <div class="col-md-7">
         <div class="card-body">
-          <h1 class="mb-3 fw-bold mb-4">{{user.name}}</h1>
+          <h1 class="mb-3 fw-bold mb-4">{{lesson.name}}</h1>
           <h4 class="mb-1 fw-bold"><i class="fa-solid fa-heart"
                style="color: #ffbb00;"></i> 4.5</h4>
         </div>
@@ -23,14 +23,14 @@
       <div class="mb-5">
         <h5 class="mb-3 fw-bold">Introduction</h5>
         <div class="row">
-          <p>{{user.info}}{{user.info}}{{user.info}}</p>
+          <p>{{lesson.info}}</p>
         </div>
       </div>
       {{!-- Teaching Style --}}
       <div class="mb-5">
         <h5 class="mb-3 fw-bold">Teaching Style</h5>
         <div class="row">
-          <p>{{user.info}}{{user.info}}{{user.info}}</p>
+          <p>{{lesson.style}}</p>
         </div>
       </div>
       {{!-- Lesson History --}}

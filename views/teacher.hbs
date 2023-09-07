@@ -1,19 +1,19 @@
 <div class="row justify-content-between">
-
+  {{!-- left personal --}}
   <div class="col-3 p-4">
-    <img src="https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png"
+    <img src="{{lesson.img}}"
          class="img-fluid rounded mb-3"
          alt="avatar">
-    <h3 class="mb-3 fw-bold">{{user.name}}</h3>
+    <h3 class="mb-3 fw-bold">{{lesson.name}}</h3>
     <h5 class="mb-1 fw-bold"><i class="fa-solid fa-heart"
-         style="color: #ffbb00;"></i>　4.5</h5>
+         style="color: #ffbb00;"></i>　{{lesson.averageScore}}</h5>
     <h5 class="mb-1 fw-bold"><i class="fa-solid fa-address-card"
          style="color: #25a80b;"></i>　About Me</h5>
-    <p class="mb-4">{{user.info}}</p>
+    <p class="mb-4">{{lesson.info}}</p>
   </div>
-
+  {{!-- right lesson info --}}
   <div class="col-9 p-5">
-
+    {{!-- New Schedule --}}
     <div class="mb-4"
          name="new-schedule">
       <h5 class="mb-3 fw-bold">New Schedule</h5>
@@ -31,15 +31,17 @@
 
       </div>
     </div>
+    {{!-- Your Teaching Style --}}
     <div class="mb-4"
-         name="lesson-history">
+         name="teaching-style">
       <h5 class="mb-3 fw-bold">Your Teaching Style</h5>
       <div class="row">
-        <p>{{user.info}}{{user.info}}{{user.info}}</p>
+        <p>{{lesson.style}}</p>
       </div>
     </div>
+    {{!-- Recent Reviewed --}}
     <div class="mb-5"
-         name="study-hours">
+         name="recent-reviewed">
       <h5 class="mb-3 fw-bold">Recent Reviewed</h5>
       <div class="row">
 
@@ -62,9 +64,9 @@
 
       </div>
     </div>
-
+    {{!-- edit btn --}}
     <div class="mb-5 d-flex justify-content-end">
-      <a href="/teachers/{{user.id}}/edit"><button class="btn badge text-wrap btn-primary p-2 lh-base"
+      <a href="/teachers/{{lesson.id}}/edit"><button class="btn badge text-wrap btn-primary p-2 lh-base"
                 style="width: 8rem;">Edit Profile & Booking
           Calendar</button></a>
     </div>
