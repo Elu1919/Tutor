@@ -14,7 +14,11 @@ const teacherController = {
     res.render('teacher')
   },
   editTeacher: (req, res, next) => {
-    res.render('teacher-edit', { date: weekDay })
+    return Lesson.findAll({ teacher_id: req.params.id }, { raw: true })
+      .then(lesson => {
+        if (!lesson) throw new Error("lesson doesn't exist!")
+        res.render('teacher-edit', { lesson })
+      })
   },
   putTeacher: (req, res, next) => {
 

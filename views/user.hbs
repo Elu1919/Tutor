@@ -1,7 +1,8 @@
 <div class="row justify-content-between">
 
+  {{!-- left: user info --}}
   <div class="col-3 p-4">
-    <img src="https://illustcenter.com/wp-content/uploads/2022/09/sdesign_00165-508x381.png"
+    <img src="{{user.avatar}}"
          class="img-fluid rounded mb-3"
          alt="avatar">
     <h3 class="mb-3 fw-bold">{{user.name}}</h3>
@@ -10,8 +11,9 @@
     <a href="/users/{{user.id}}/edit"><button class="btn btn-primary">Edit</button></a>
   </div>
 
+  {{!-- right --}}
   <div class="col-9 p-5">
-
+    {{!-- New Schedule --}}
     <div class="mb-5"
          name="new-schedule">
       <h5 class="mb-3 fw-bold">New Schedule</h5>
@@ -29,6 +31,7 @@
 
       </div>
     </div>
+    {{!-- Lesson History --}}
     <div class="mb-5"
          name="lesson-history">
       <h5 class="mb-3 fw-bold">Lesson History</h5>
@@ -43,7 +46,7 @@
             </div>
             <div class="card col-10">
               <div class="my-auto mx-3 d-md-flex justify-content-md-between">
-                <h5 class="card-title lh-sm pt-1">{{user.name}}</h5>
+                <h5 class="card-title lh-sm pt-1">老師名稱</h5>
                 <a class="btn btn-primary btn-base"
                    href="#"
                    role="button">Score</a>
@@ -54,6 +57,7 @@
 
       </div>
     </div>
+    {{!-- 我的學習時數名次 --}}
     <div class="mb-5"
          name="study-hours">
       <h5 class="mb-3 fw-bold">我的學習時數名次</h5>
