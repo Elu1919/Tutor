@@ -47,7 +47,7 @@ const teacherController = {
         const student = await User.findByPk(user.id)
         if (!student) throw new Error("User didn't exist!")
         return await student.update({
-          is_teacher: !student.is_teacher
+          is_teacher: true
         })
       })
       .then(() => {
