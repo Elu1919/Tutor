@@ -1,4 +1,4 @@
-const { Lesson } = require('../../models')
+const { Lesson, User } = require('../../models')
 const weekDay = [
   { id: 1, date: '星期日' },
   { id: 2, date: '星期一' },
@@ -20,6 +20,8 @@ const teacherController = {
 
   },
   createNewTeacher: (req, res, next) => {
+    const user = req.user
+    if (user.is_teacher) throw new Error("您已經是老師了！")
     res.render('new-teacher', { date: weekDay })
   },
   postNewTeacher: async (req, res, next) => {
@@ -41,6 +43,13 @@ const teacherController = {
       total_score: 0,
       score_count: 0,
     })
+      .then(async () => {
+        const student = await User.findByPk(user.id)
+        if (!student) throw new Error("User didn't exist!")
+        return await student.update({
+          is_teacher: !student.is_teacher
+        })
+      })
       .then(() => {
         req.flash('success_messages', '您已成為老師！')
         res.redirect(`/teachers/${user.id}/personal`)
