@@ -1,5 +1,5 @@
 const moment = require('moment')
-const { localFileHandler } = require('../../helpers/file-helpers')
+const { imgurFileHandler } = require('../../helpers/file-helpers')
 const { Lesson, User, ClassRecord } = require('../../models')
 const weekDay = [
   { id: '1', date: '星期日' },
@@ -62,7 +62,7 @@ const teacherController = {
     if (!date) throw new Error('請選擇 開放時間 !!')
     Promise.all([
       Lesson.findByPk(req.params.id),
-      localFileHandler(file)
+      imgurFileHandler(file)
     ])
       .then(([lesson, filePath]) => {
         if (!lesson) throw new Error("Lesson didn't exist!")
