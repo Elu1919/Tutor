@@ -14,21 +14,27 @@
   {{!-- right lesson info --}}
   <div class="col-9 p-5">
     {{!-- New Schedule --}}
-    <div class="mb-4"
+    <div class="mb-5"
          name="new-schedule">
       <h5 class="mb-3 fw-bold">New Schedule</h5>
       <div class="row">
-
-        <div class="col-sm-6">
+        {{#each records}}
+        {{#ifFinish this.date.end this.date.now}}
+        <div class="col-sm-6 mt-3">
           <div class="card">
             <div class="card-body">
-              <p class="card-text lh-1">Time:</p>
-              <p class="card-text lh-1">Student's Name:</p>
-              <p class="card-text lh-1">Session Link:</p>
+              <p class="card-text lh-1"><span class="fw-bold">Time:</span> <span class="text-muted">{{this.start_time}}
+                  ~ {{this.end_time}}</span></p>
+              <p class="card-text lh-1"><span class="fw-bold">Student's Name:</span> <span class="text-muted">
+                  {{this.User.name}}</span></p>
+              <p class="card-text lh-1"><span class="fw-bold">Session Link:</span> <a href="{{../lesson.link}}"
+                   target="_blank"
+                   title="session Link">前往視訊課程 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
             </div>
           </div>
         </div>
-
+        {{/ifFinish}}
+        {{/each}}
       </div>
     </div>
     {{!-- Your Teaching Style --}}
@@ -44,24 +50,30 @@
          name="recent-reviewed">
       <h5 class="mb-3 fw-bold">Recent Reviewed</h5>
       <div class="row">
-
-        <div class="d-flex justify-content-between">
-
-          <div class="card col-1 bg-warning bg-opacity-75 me-2"
-               style="min-width: 60px;">
-            <div class="m-auto">
-              <h6 class="card-title lh-sm pt-1 fw-bold">4.4</h6>
+        {{#eachDesc records}}
+        {{#ifFinish this.date.end this.date.now}}
+        {{else}}
+        {{#ifCond this.score 0}}
+        {{else}}
+        <div class="mb-1">
+          <div class="d-flex justify-content-between">
+            <div class="card col-1 bg-warning bg-opacity-75 me-2"
+                 style="min-width: 60px;">
+              <div class="m-auto">
+                <h6 class="card-title lh-sm pt-1 fw-bold">{{this.score}}</h6>
+              </div>
+            </div>
+            <div class="card col">
+              <div class="my-auto mx-3">
+                <h5 class="card-title lh-sm pt-1">{{this.comment}}</h5>
+              </div>
             </div>
           </div>
-
-          <div class="card col">
-            <div class="my-auto mx-3">
-              <h5 class="card-title lh-sm pt-1">Messages</h5>
-            </div>
-          </div>
-
+          <p class="text-end text-muted">{{this.updated_at}}</p>
         </div>
-
+        {{/ifCond}}
+        {{/ifFinish}}
+        {{/eachDesc}}
       </div>
     </div>
     {{!-- edit btn --}}

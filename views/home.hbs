@@ -22,20 +22,20 @@
            class="text-reset text-decoration-none">
           <div class="col h-100">
             <div class="card h-100">
-              <div class="row g-0 mt-2">
-                <div class="col-5">
+              <div class="row g-0 mt-2"
+                   style="height: 8rem;">
+                <div class="col-5 ms-2">
                   <img src="{{this.img}}"
-                       class="img-fluid rounded"
+                       class="img-fluid rounded m-auto d-block"
+                       style="width: 8rem;"
                        alt="avatar">
                 </div>
-                <div class="col-7">
-                  <div class="card-body">
-                    <h5 class="card-title">{{this.name}}</h5>
-                    <p class="card-text"><small class="text-muted">{{this.style}}</small></p>
-                  </div>
+                <div class="col-6 ms-3">
+                  <h5 class="fw-bold">{{this.name}}</h5>
+                  <p class="card-text pt-0"><small class="text-muted">{{this.style}}</small></p>
                 </div>
               </div>
-              <div class="card-body pt-0">
+              <div class="card-body">
                 <p class="card-text">{{this.info}}</p>
               </div>
             </div>

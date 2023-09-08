@@ -18,7 +18,7 @@ module.exports = {
       const studentId = i < 25 ? users[i * 2 + 1].id : users[(i - 25) * 2 + 1].id
       const startTime = new Date(2023, mon, d, h)
       const endTime = new Date(2023, mon, d, h, 30)
-      const score = Math.floor(Math.random() * 11)
+      const score = Math.floor(Math.random() * 10 + 1)
       const comment = faker.person.jobTitle()
 
       await queryInterface.bulkInsert('ClassRecords', [
@@ -44,7 +44,7 @@ module.exports = {
       const studentId = i < 24 ? users[(i + 2) * 2 - 2].id : users[0].id
       const startTime = new Date(2023, mon, d, h)
       const endTime = new Date(2023, mon, d, h, 30)
-      const score = Math.floor(Math.random() * 11)
+      const score = Math.floor(Math.random() * 10 + 1)
       const comment = faker.person.jobTitle()
 
       await queryInterface.bulkInsert('ClassRecords', [

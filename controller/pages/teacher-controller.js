@@ -1,5 +1,6 @@
+const moment = require('moment')
 const { localFileHandler } = require('../../helpers/file-helpers')
-const { Lesson, User } = require('../../models')
+const { Lesson, User, ClassRecord } = require('../../models')
 const weekDay = [
   { id: '1', date: '星期日' },
   { id: '2', date: '星期一' },
@@ -19,14 +20,32 @@ const teacherController = {
       nest: true,
       raw: true
     })
-    const score = lesson[0].total_score
-    const count = lesson[0].score_count
-    const data = lesson.map(lesson => ({
+    const record = await ClassRecord.findAll({
+      where: {
+        teacher_id: req.params.id
+      },
+      order: [
+        ['start_time', 'ASC']
+      ],
+      include: User,
+      nest: true,
+      raw: true
+    })
+    const lessonData = lesson.map(lesson => ({
       ...lesson,
-      averageScore: score / count
+      averageScore: lesson.total_score / lesson.score_count
     }))
-
-    res.render('teacher', { lesson: data[0] })
+    const recordData = record.map(record => ({
+      ...record,
+      date: {
+        now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
+        end: parseInt(moment(record.end_time).format("YYYYMMDDHHmmss"))
+      },
+      start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
+      end_time: moment(record.end_time).format("HH:mm | dddd"),
+      updated_at: moment(record.updated_at).format("[comment at] YYYY-MM-DD")
+    }))
+    res.render('teacher', { lesson: lessonData[0], records: recordData })
   },
   editTeacher: async (req, res, next) => {
     const lesson = await Lesson.findByPk(req.params.id, { raw: true })
