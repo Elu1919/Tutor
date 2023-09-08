@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
+const moment = require('moment')
 const { imgurFileHandler } = require('../../helpers/file-helpers')
-const { User } = require('../../models')
+const { User, ClassRecord, Lesson } = require('../../models')
 
 const userController = {
   loginPage: (req, res, next) => {
@@ -37,8 +38,30 @@ const userController = {
     })
     res.redirect('/login')
   },
-  getUser: (req, res, next) => {
-    res.render('user')
+  getUser: async (req, res, next) => {
+    const record = await ClassRecord.findAll({
+      where: {
+        student_id: req.params.id
+      },
+      order: [
+        ['start_time', 'ASC']
+      ],
+      nest: true,
+      raw: true
+    })
+    const recordData = record.map(async (record) => ({
+      ...record,
+      date: {
+        now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
+        end: parseInt(moment(record.end_time).format("YYYYMMDDHHmmss"))
+      },
+      start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
+      end_time: moment(record.end_time).format("HH:mm | dddd"),
+      updated_at: moment(record.updated_at).format("[finished at] YYYY-MM-DD"),
+      lessonLink: await Lesson.findAll()
+    }))
+    console.log(recordData)
+    res.render('user', { records: recordData })
   },
   editUser: (req, res, next) => {
     res.render('user-edit')

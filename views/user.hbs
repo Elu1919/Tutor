@@ -19,15 +19,23 @@
       <h5 class="mb-3 fw-bold">New Schedule</h5>
       <div class="row">
 
-        <div class="col-sm-6">
+        {{#each records}}
+        {{#ifFinish this.date.end this.date.now}}
+        <div class="col-sm-6 mt-3">
           <div class="card">
             <div class="card-body">
-              <p class="card-text lh-1">Time:</p>
-              <p class="card-text lh-1">Teacher's Name:</p>
-              <p class="card-text lh-1">Session Link:</p>
+              <p class="card-text lh-1"><span class="fw-bold">Time:</span> <span class="text-muted">{{this.start_time}}
+                  ~ {{this.end_time}}</span></p>
+              <p class="card-text lh-1"><span class="fw-bold">Teacher's Name:</span> <span class="text-muted">
+                  {{this.User.name}}</span></p>
+              <p class="card-text lh-1"><span class="fw-bold">Session Link:</span> <a href="{{../lesson.link}}"
+                   target="_blank"
+                   title="session Link">前往視訊課程 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
             </div>
           </div>
         </div>
+        {{/ifFinish}}
+        {{/each}}
 
       </div>
     </div>
@@ -65,7 +73,7 @@
         <div class="col-sm-6">
           <div class="card">
             <div class="card-body">
-              <p class="card-text lh-1">Ranking:</p>
+              <p class="card-text lh-1">Ranking: 挑戰功能</p>
             </div>
           </div>
         </div>
