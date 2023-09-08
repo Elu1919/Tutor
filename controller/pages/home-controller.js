@@ -18,8 +18,8 @@ const homeController = {
       .then(lessons => {
         const data = lessons.rows.map(lesson => ({
           ...lesson,
-          info: lesson.info.substring(0, 50),
-          style: lesson.style.substring(0, 25)
+          info: lesson.info.substring(0, 150),
+          style: lesson.style.substring(0, 50)
         }))
         return res.render('home', {
           lessons: data,

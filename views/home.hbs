@@ -18,11 +18,11 @@
 
       <div class="row row-cols-1 row-cols-md-3 g-4">
         {{#each lessons}}
-        <a href="/teachers/{{this.id}}"
+        <a href="/teachers/{{this.teacher_id}}"
            class="text-reset text-decoration-none">
           <div class="col h-100">
             <div class="card h-100">
-              <div class="row g-0 mt-2"
+              <div class="row g-0 my-2"
                    style="height: 8rem;">
                 <div class="col-5 ms-2">
                   <img src="{{this.img}}"
@@ -30,9 +30,9 @@
                        style="width: 8rem;"
                        alt="avatar">
                 </div>
-                <div class="col-6 ms-3">
+                <div class="col-6 ps-3 pe-2">
                   <h5 class="fw-bold">{{this.name}}</h5>
-                  <p class="card-text pt-0"><small class="text-muted">{{this.style}}</small></p>
+                  <p class="card-text pt-0 lh-1"><small class="text-muted">{{this.style}}</small></p>
                 </div>
               </div>
               <div class="card-body">

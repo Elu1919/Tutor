@@ -119,8 +119,40 @@ const teacherController = {
       })
       .catch(err => next(err))
   },
-  getLesson: (req, res, next) => {
-    res.render('lesson')
+  getLesson: async (req, res, next) => {
+    const lesson = await Lesson.findAll({
+      where: {
+        teacher_id: req.params.id
+      },
+      nest: true,
+      raw: true
+    })
+    const record = await ClassRecord.findAll({
+      where: {
+        teacher_id: req.params.id
+      },
+      order: [
+        ['start_time', 'ASC']
+      ],
+      include: User,
+      nest: true,
+      raw: true
+    })
+    const lessonData = lesson.map(lesson => ({
+      ...lesson,
+      averageScore: lesson.total_score / lesson.score_count
+    }))
+    const recordData = record.map(record => ({
+      ...record,
+      date: {
+        now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
+        end: parseInt(moment(record.end_time).format("YYYYMMDDHHmmss"))
+      },
+      start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
+      end_time: moment(record.end_time).format("HH:mm | dddd"),
+      updated_at: moment(record.updated_at).format("[comment at] YYYY-MM-DD")
+    }))
+    res.render('lesson', { lesson: lessonData[0], records: recordData })
   },
   postReserve: (req, res, next) => {
 
