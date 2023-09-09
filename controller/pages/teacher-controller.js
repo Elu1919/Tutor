@@ -13,15 +13,12 @@ const weekDay = [
 
 const teacherController = {
   getTeacher: async (req, res, next) => {
-    const lesson = await Lesson.findAll({
-      where: {
-        teacher_id: req.params.id
-      },
+    const lesson = await Lesson.findByPk(req.params.id, {
       raw: true
     })
     const records = await ClassRecord.findAll({
       where: {
-        lesson_id: lesson[0].id
+        lesson_id: lesson.id
       },
       order: [
         ['start_time', 'ASC']
@@ -32,7 +29,7 @@ const teacherController = {
       nest: true,
       raw: true
     })
-    lesson[0].averageScore = lesson.total_score / lesson.score_count
+    lesson.averageScore = (lesson.total_score / lesson.score_count).toFixed(1)
     const recordData = records.map(record => ({
       ...record,
       date: {
@@ -41,9 +38,8 @@ const teacherController = {
       },
       start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
       end_time: moment(record.end_time).format("HH:mm | dddd"),
-      updated_at: moment(record.updated_at).format("[comment at] YYYY-MM-DD")
     }))
-    res.render('teacher', { lesson: lesson[0], records: recordData })
+    res.render('teacher', { lesson: lesson, records: recordData })
   },
   editTeacher: async (req, res, next) => {
     const lesson = await Lesson.findAll({
@@ -136,7 +132,7 @@ const teacherController = {
       nest: true,
       raw: true
     })
-    lesson.averageScore = lesson.total_score / lesson.score_count
+    lesson.averageScore = (lesson.total_score / lesson.score_count).toFixed(1)
     const recordData = records.map(record => ({
       ...record,
       date: {
@@ -145,9 +141,27 @@ const teacherController = {
       },
       start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
       end_time: moment(record.end_time).format("HH:mm | dddd"),
-      updated_at: moment(record.updated_at).format("[comment at] YYYY-MM-DD")
     }))
     res.render('lesson', { lesson, records: recordData })
+  },
+  putScore: async (req, res, next) => {
+    const user = req.user
+    const { score, comment } = req.body
+    const record = await ClassRecord.findByPk(req.params.id)
+    const lesson = await Lesson.findByPk(record.lesson_id)
+    if (!record) throw new Error("classRecord didn't exist!")
+    await record.update({
+      score,
+      comment
+    })
+    await lesson.update({
+      total_score: parseInt(lesson.total_score) + parseInt(score),
+      score_count: lesson.score_count + 1
+    })
+
+    req.flash('success_messages', '評分成功！')
+    res.redirect(`/users/${user.id}`)
+
   },
   postReserve: (req, res, next) => {
 

@@ -28,7 +28,7 @@
                   ~ {{this.end_time}}</span></p>
               <p class="card-text lh-1"><span class="fw-bold">Teacher's Name:</span> {{this.classTeacher.name}}<span
                       class="text-muted">
-                  {{this.User.name}}</span></p>s
+                  {{this.User.name}}</span></p>
               <p class="card-text lh-1"><span class="fw-bold">Session Link:</span> <a href="{{this.classInfo.link}}"
                    target="_blank"
                    title="session Link">前往視訊課程 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
@@ -81,25 +81,29 @@
                                 aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        <form action="/teachers/{{user.id}}/score?_method=PUT"
+                        <form action="/teachers/{{this.id}}/score?_method=PUT"
                               method="POST">
                           <div class="mb-3">
                             <label for="score"
                                    class="col-form-label">Score:</label>
                             <select class="form-select"
                                     id="score"
-                                    aria-label="Default select example">
-                              <option selected>請選擇分數</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="3">4</option>
-                              <option value="3">5</option>
-                              <option value="3">6</option>
-                              <option value="3">7</option>
-                              <option value="3">8</option>
-                              <option value="3">9</option>
-                              <option value="3">10</option>
+                                    name="score"
+                                    aria-label="Default select example"
+                                    required>
+                              <option value=""
+                                      selected
+                                      disabled>請選擇分數</option>
+                              <option value='1'>1</option>
+                              <option value='2'>2</option>
+                              <option value='3'>3</option>
+                              <option value='4'>4</option>
+                              <option value='5'>5</option>
+                              <option value='6'>6</option>
+                              <option value='7'>7</option>
+                              <option value='8'>8</option>
+                              <option value='9'>9</option>
+                              <option value='10'>10</option>
                             </select>
                           </div>
                           <div class="mb-3">
@@ -107,6 +111,7 @@
                                    class="col-form-label">Message:</label>
                             <textarea class="form-control"
                                       id="message-text"
+                                      name="comment"
                                       placeholder="可以留下你對課程的評論（非必填）"></textarea>
                           </div>
                           <div class="modal-footer">
