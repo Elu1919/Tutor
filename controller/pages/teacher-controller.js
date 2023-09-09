@@ -17,25 +17,23 @@ const teacherController = {
       where: {
         teacher_id: req.params.id
       },
-      nest: true,
       raw: true
     })
-    const record = await ClassRecord.findAll({
+    const records = await ClassRecord.findAll({
       where: {
-        teacher_id: req.params.id
+        lesson_id: lesson[0].id
       },
       order: [
         ['start_time', 'ASC']
       ],
-      include: User,
+      include: [
+        { model: User, as: 'classStudent' }
+      ],
       nest: true,
       raw: true
     })
-    const lessonData = lesson.map(lesson => ({
-      ...lesson,
-      averageScore: lesson.total_score / lesson.score_count
-    }))
-    const recordData = record.map(record => ({
+    lesson[0].averageScore = lesson.total_score / lesson.score_count
+    const recordData = records.map(record => ({
       ...record,
       date: {
         now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
@@ -45,13 +43,18 @@ const teacherController = {
       end_time: moment(record.end_time).format("HH:mm | dddd"),
       updated_at: moment(record.updated_at).format("[comment at] YYYY-MM-DD")
     }))
-    res.render('teacher', { lesson: lessonData[0], records: recordData })
+    res.render('teacher', { lesson: lesson[0], records: recordData })
   },
   editTeacher: async (req, res, next) => {
-    const lesson = await Lesson.findByPk(req.params.id, { raw: true })
-    const date = Array.from(lesson.date)
+    const lesson = await Lesson.findAll({
+      where: {
+        teacher_id: req.params.id
+      },
+      raw: true
+    })
+    const date = Array.from(lesson[0].date)
     res.render('teacher-edit', {
-      lesson,
+      lesson: lesson[0],
       weekDay,
       date
     })
@@ -120,29 +123,21 @@ const teacherController = {
       .catch(err => next(err))
   },
   getLesson: async (req, res, next) => {
-    const lesson = await Lesson.findAll({
-      where: {
-        teacher_id: req.params.id
-      },
-      nest: true,
+    const lesson = await Lesson.findByPk(req.params.id, {
       raw: true
     })
-    const record = await ClassRecord.findAll({
+    const records = await ClassRecord.findAll({
       where: {
-        teacher_id: req.params.id
+        lesson_id: req.params.id
       },
       order: [
         ['start_time', 'ASC']
       ],
-      include: User,
       nest: true,
       raw: true
     })
-    const lessonData = lesson.map(lesson => ({
-      ...lesson,
-      averageScore: lesson.total_score / lesson.score_count
-    }))
-    const recordData = record.map(record => ({
+    lesson.averageScore = lesson.total_score / lesson.score_count
+    const recordData = records.map(record => ({
       ...record,
       date: {
         now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
@@ -152,7 +147,7 @@ const teacherController = {
       end_time: moment(record.end_time).format("HH:mm | dddd"),
       updated_at: moment(record.updated_at).format("[comment at] YYYY-MM-DD")
     }))
-    res.render('lesson', { lesson: lessonData[0], records: recordData })
+    res.render('lesson', { lesson, records: recordData })
   },
   postReserve: (req, res, next) => {
 

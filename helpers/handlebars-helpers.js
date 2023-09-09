@@ -8,8 +8,11 @@ module.exports = {
   ifWeekDay: function (a, b, options) {
     return a.includes(b) ? options.fn(this) : options.inverse(this)
   },
-  ifFinish: function (a, b, options) {
+  ifSchedule: function (a, b, options) {
     return a >= b ? options.fn(this) : options.inverse(this)
+  },
+  ifFinish: function (a, b, options) {
+    return a < b ? options.fn(this) : options.inverse(this)
   },
   eachDesc: function (a, options) {
     let data = ""

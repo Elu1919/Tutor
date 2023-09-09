@@ -14,48 +14,47 @@
   {{!-- right lesson info --}}
   <div class="col-9 p-5">
     {{!-- New Schedule --}}
-    <div class="mb-5"
+    <div class="mb-3"
          name="new-schedule">
       <h5 class="mb-3 fw-bold">New Schedule</h5>
       <div class="row">
         {{#each records}}
-        {{#ifFinish this.date.end this.date.now}}
-        <div class="col-sm-6 mt-3">
+        {{#ifSchedule this.date.end this.date.now}}
+        <div class="col-sm-6 mb-3">
           <div class="card">
             <div class="card-body">
               <p class="card-text lh-1"><span class="fw-bold">Time:</span> <span class="text-muted">{{this.start_time}}
                   ~ {{this.end_time}}</span></p>
               <p class="card-text lh-1"><span class="fw-bold">Student's Name:</span> <span class="text-muted">
-                  {{this.User.name}}</span></p>
+                  {{this.classStudent.name}}</span></p>
               <p class="card-text lh-1"><span class="fw-bold">Session Link:</span> <a href="{{../lesson.link}}"
                    target="_blank"
                    title="session Link">前往視訊課程 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
             </div>
           </div>
         </div>
-        {{/ifFinish}}
+        {{/ifSchedule}}
         {{/each}}
       </div>
     </div>
     {{!-- Your Teaching Style --}}
-    <div class="mb-4"
+    <div class="mb-3"
          name="teaching-style">
-      <h5 class="mb-3 fw-bold">Your Teaching Style</h5>
+      <h5 class="fw-bold">Your Teaching Style</h5>
       <div class="row">
         <p>{{lesson.style}}</p>
       </div>
     </div>
     {{!-- Recent Reviewed --}}
-    <div class="mb-5"
+    <div class="mb-4"
          name="recent-reviewed">
       <h5 class="mb-3 fw-bold">Recent Reviewed</h5>
       <div class="row">
         {{#eachDesc records}}
         {{#ifFinish this.date.end this.date.now}}
-        {{else}}
         {{#ifCond this.score 0}}
         {{else}}
-        <div class="mb-1">
+        <div>
           <div class="d-flex justify-content-between">
             <div class="card col-1 bg-warning bg-opacity-75 me-2"
                  style="min-width: 60px;">

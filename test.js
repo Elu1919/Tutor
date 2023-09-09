@@ -33,8 +33,12 @@ function RandomDate() {
 
 // console.log(RandomDate())
 
-for (let i = 0; i < 25; i++) {
-  const teacherId = (i + 1) * 2 - 2
-  const studentId = i < 24 ? (i + 2) * 2 - 2 : 0
-  console.log(teacherId, studentId)
+for (let i = 0; i < 10; i++) {
+  const h = Math.floor(Math.random() * 4 + 18)
+  const d = Math.floor(Math.random() * 7 + 16)
+  const mon = Math.floor(Math.random() * 8)
+  const date = new Date(2023, mon, d, h)
+  console.log(mon, d, h)
+  console.log(date)
+  console.log(moment(date).format("YYYY-MM-DD HH:mm"))
 }

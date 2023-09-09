@@ -39,28 +39,38 @@ const userController = {
     res.redirect('/login')
   },
   getUser: async (req, res, next) => {
-    const record = await ClassRecord.findAll({
+    const records = await ClassRecord.findAll({
       where: {
         student_id: req.params.id
       },
+      include: [
+        {
+          model: Lesson,
+          as: 'classInfo',
+        },
+        {
+          model: User,
+          as: 'classTeacher',
+        }
+      ],
       order: [
         ['start_time', 'ASC']
       ],
       nest: true,
       raw: true
     })
-    const recordData = record.map(async (record) => ({
-      ...record,
-      date: {
-        now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
-        end: parseInt(moment(record.end_time).format("YYYYMMDDHHmmss"))
-      },
-      start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
-      end_time: moment(record.end_time).format("HH:mm | dddd"),
-      updated_at: moment(record.updated_at).format("[finished at] YYYY-MM-DD"),
-      lessonLink: await Lesson.findAll()
-    }))
-    console.log(recordData)
+    const recordData = records.map(record => (
+      {
+        ...record,
+        date: {
+          now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
+          end: parseInt(moment(record.end_time).format("YYYYMMDDHHmmss"))
+        },
+        start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
+        end_time: moment(record.end_time).format("HH:mm | dddd"),
+        finished_at: moment(record.end_time).format("[finished at] YYYY-MM-DD"),
+      }
+    ))
     res.render('user', { records: recordData })
   },
   editUser: (req, res, next) => {

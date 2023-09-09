@@ -14,37 +14,39 @@
   {{!-- right --}}
   <div class="col-9 p-5">
     {{!-- New Schedule --}}
-    <div class="mb-5"
+    <div class="mb-3"
          name="new-schedule">
       <h5 class="mb-3 fw-bold">New Schedule</h5>
       <div class="row">
 
         {{#each records}}
-        {{#ifFinish this.date.end this.date.now}}
-        <div class="col-sm-6 mt-3">
+        {{#ifSchedule this.date.end this.date.now}}
+        <div class="col-sm-6 mb-3">
           <div class="card">
             <div class="card-body">
-              <p class="card-text lh-1"><span class="fw-bold">Time:</span> <span class="text-muted">{{this.start_time}}
+              <p class="card-text lh-1"><span class="fw-bold">Time:</span> <span class="text-muted"> {{this.start_time}}
                   ~ {{this.end_time}}</span></p>
-              <p class="card-text lh-1"><span class="fw-bold">Teacher's Name:</span> <span class="text-muted">
-                  {{this.User.name}}</span></p>
-              <p class="card-text lh-1"><span class="fw-bold">Session Link:</span> <a href="{{../lesson.link}}"
+              <p class="card-text lh-1"><span class="fw-bold">Teacher's Name:</span> {{this.classTeacher.name}}<span
+                      class="text-muted">
+                  {{this.User.name}}</span></p>s
+              <p class="card-text lh-1"><span class="fw-bold">Session Link:</span> <a href="{{this.classInfo.link}}"
                    target="_blank"
                    title="session Link">前往視訊課程 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
             </div>
           </div>
         </div>
-        {{/ifFinish}}
+        {{/ifSchedule}}
         {{/each}}
 
       </div>
     </div>
     {{!-- Lesson History --}}
-    <div class="mb-5"
+    <div class="mb-3"
          name="lesson-history">
       <h5 class="mb-3 fw-bold">Lesson History</h5>
       <div class="row">
-
+        {{#eachDesc records}}
+        {{#ifFinish this.date.end this.date.now}}
         <div class="col-sm-6">
           <div class="d-flex justify-content-between">
             <div class="col-2">
@@ -54,19 +56,30 @@
             </div>
             <div class="card col-10">
               <div class="my-auto mx-3 d-md-flex justify-content-md-between">
-                <h5 class="card-title lh-sm pt-1">老師名稱</h5>
+                <h5 class="card-title lh-sm pt-1">{{this.classTeacher.name}}</h5>
+                {{#ifCond this.score 0}}
                 <a class="btn btn-primary btn-base"
                    href="#"
                    role="button">Score</a>
+                {{else}}
+                <div class="card col-1 bg-success text-white"
+                     style="min-width: 66px;">
+                  <div class="m-auto">
+                    <h6 class="card-title lh-sm pt-1 fw-bold">{{this.score}}</h6>
+                  </div>
+                </div>
+                {{/ifCond}}
               </div>
             </div>
           </div>
+          <p class="text-end text-muted me-2">{{this.finished_at}}</p>
         </div>
-
+        {{/ifFinish}}
+        {{/eachDesc}}
       </div>
     </div>
     {{!-- 我的學習時數名次 --}}
-    <div class="mb-5"
+    <div class="mb-4"
          name="study-hours">
       <h5 class="mb-3 fw-bold">我的學習時數名次</h5>
       <div class="row">

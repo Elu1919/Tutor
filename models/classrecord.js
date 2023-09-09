@@ -11,11 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      ClassRecord.belongsTo(models.User, { foreignKey: 'teacherId' })
-      ClassRecord.belongsTo(models.User, { foreignKey: 'studentId' })
+      ClassRecord.belongsTo(models.Lesson, { foreignKey: 'lesson_id', as: 'classInfo' })
+      ClassRecord.belongsTo(models.User, { foreignKey: 'student_id', as: 'classStudent' })
+      ClassRecord.belongsTo(models.User, { foreignKey: 'teacher_id', as: 'classTeacher' })
     }
   }
   ClassRecord.init({
+    lesson_id: DataTypes.INTEGER,
     teacher_id: DataTypes.INTEGER,
     student_id: DataTypes.INTEGER,
     start_time: DataTypes.DATE,

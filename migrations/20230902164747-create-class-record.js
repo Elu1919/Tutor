@@ -9,6 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      lesson_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       teacher_id: {
         allowNull: false,
         type: Sequelize.INTEGER
