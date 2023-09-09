@@ -58,9 +58,69 @@
               <div class="my-auto mx-3 d-md-flex justify-content-md-between">
                 <h5 class="card-title lh-sm pt-1">{{this.classTeacher.name}}</h5>
                 {{#ifCond this.score 0}}
-                <a class="btn btn-primary btn-base"
-                   href="#"
-                   role="button">Score</a>
+                <button type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        data-bs-whatever="@fat">Score
+                </button>
+                {{!-- score model --}}
+                <div class="modal fade"
+                     id="exampleModal"
+                     tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title"
+                            id="exampleModalLabel">為本次課程評分</h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="/teachers/{{user.id}}/score?_method=PUT"
+                              method="POST">
+                          <div class="mb-3">
+                            <label for="score"
+                                   class="col-form-label">Score:</label>
+                            <select class="form-select"
+                                    id="score"
+                                    aria-label="Default select example">
+                              <option selected>請選擇分數</option>
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="3">4</option>
+                              <option value="3">5</option>
+                              <option value="3">6</option>
+                              <option value="3">7</option>
+                              <option value="3">8</option>
+                              <option value="3">9</option>
+                              <option value="3">10</option>
+                            </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="message-text"
+                                   class="col-form-label">Message:</label>
+                            <textarea class="form-control"
+                                      id="message-text"
+                                      placeholder="可以留下你對課程的評論（非必填）"></textarea>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                            <button type="submit"
+                                    class="btn btn-primary">Summit</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {{else}}
                 <div class="card col-1 bg-success text-white"
                      style="min-width: 66px;">
