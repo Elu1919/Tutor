@@ -1,16 +1,27 @@
 const userServices = require('../../services/user-services')
 const bcrypt = require('bcryptjs')
-const moment = require('moment')
-const { imgurFileHandler } = require('../../helpers/file-helpers')
-const { User, ClassRecord, Lesson } = require('../../models')
+const jwt = require('jsonwebtoken')
+const { User } = require('../../models')
 
 const userController = {
   loginPage: (req, res, next) => {
     res.render('login')
   },
   login: (req, res, next) => {
-    req.flash('success_messages', '成功登入！')
-    res.redirect('/')
+    try {
+      const userData = req.user.toJSON()
+      delete userData.password
+      const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
+      res.json({
+        status: 'success',
+        data: {
+          token,
+          user: userData
+        }
+      })
+    } catch (err) {
+      next(err)
+    }
   },
   signUpPage: (req, res, next) => {
     res.render('signup')

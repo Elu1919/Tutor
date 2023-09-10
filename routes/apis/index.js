@@ -1,6 +1,7 @@
 const express = require('express')
 
 const { apiErrorHandler } = require('../../middleware/error-handler')
+const passport = require('../../config/passport')
 
 const userController = require('../../controller/apis/user-controller')
 const adminController = require('../../controller/apis/admin-controller')
@@ -16,7 +17,7 @@ const router = express.Router()
 // router.get('/login', userController.loginPage)
 
 // router.post('/login/:admin', passport.authenticate('local', { failureRedirect: '/login/admin', failureFlash: true }), adminController.login)
-// router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), userController.login)
+router.post('/login', passport.authenticate('local', { session: false }), userController.login)
 
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
