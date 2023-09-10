@@ -1,31 +1,11 @@
 const { Lesson } = require('../../models')
 const { Op } = require("sequelize")
 const { getOffset, getPagination } = require('../../helpers/pagination-helper')
+const homeServices = require('../../services/home-services')
 
 const homeController = {
   gethome: (req, res, next) => {
-    const DEFAULT_LIMIT = 6
-    const page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || DEFAULT_LIMIT
-    const offset = getOffset(limit, page)
-
-    return Lesson.findAndCountAll({
-      limit,
-      offset,
-      nest: true,
-      raw: true
-    })
-      .then(lessons => {
-        const data = lessons.rows.map(lesson => ({
-          ...lesson,
-          info: lesson.info.substring(0, 150),
-          style: lesson.style.substring(0, 50)
-        }))
-        return res.json({
-          lessons: data,
-          pagination: getPagination(limit, page, lessons.count)
-        })
-      })
+    homeServices.gethome(req, (err, data) => err ? next(err) : res.json(data))
   },
   search: (req, res, next) => {
     const keyword = req.query.keyword
