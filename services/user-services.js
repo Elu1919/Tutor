@@ -72,10 +72,7 @@ const userServices = {
       cb(err)
     }
   },
-  editUser: (req, res, next) => {
-    res.render('user-edit')
-  },
-  putUser: (req, res, next) => {
+  putUser: (req, cb) => {
     const { name, info } = req.body
     const { file } = req
     Promise.all([
@@ -90,11 +87,10 @@ const userServices = {
           avatar: filePath || user.avatar
         })
       })
-      .then(() => {
-        req.flash('success_messages', '資訊修改成功！')
-        res.redirect(`/users/${req.params.id}`)
+      .then(user => {
+        return cb(null, { user })
       })
-      .catch(err => next(err))
+      .catch(err => cb(err))
   }
 }
 
