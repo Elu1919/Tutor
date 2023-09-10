@@ -28,7 +28,7 @@ const homeServices = {
       })
       .catch(err => cb(err))
   },
-  search: (req, res, next) => {
+  search: (req, cb) => {
     const keyword = req.query.keyword
     const DEFAULT_LIMIT = 6
     const page = Number(req.query.page) || 1
@@ -54,12 +54,13 @@ const homeServices = {
           info: lesson.info.substring(0, 50),
           style: lesson.style.substring(0, 25)
         }))
-        return res.render('home', {
+        return cb(null, {
           lessons: data,
           pagination: getPagination(limit, page, lessons.count),
           keyword
         })
       })
+      .catch(err => cb(err))
   }
 }
 
