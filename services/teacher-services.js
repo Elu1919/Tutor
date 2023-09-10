@@ -223,7 +223,6 @@ const teacherServices = {
   },
   putScore: async (req, cb) => {
     try {
-      const user = req.user ? req.user : []
       const { score, comment } = req.body
       const record = await ClassRecord.findByPk(req.params.id)
       const lesson = await Lesson.findByPk(record.lesson_id)

@@ -23,6 +23,9 @@ const userServices = {
   },
   getUser: async (req, cb) => {
     try {
+      const user = req.user ? req.user : []
+      if (user.id !== parseInt(req.params.id)) throw new Error("不可觀看別人個人頁面!!")
+
       const records = await ClassRecord.findAll({
         where: {
           student_id: req.params.id
