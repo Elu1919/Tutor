@@ -21,7 +21,7 @@ const adminServices = {
           pagination: getPagination(limit, page, users.count)
         })
       })
-      .catch(cb => next(cb))
+      .catch(err => cb(err))
   },
   loginPage: (req, res, next) => {
     res.render('admin/login')

@@ -17,18 +17,7 @@ const teacherController = {
     teacherServices.getTeacher(req, (err, data) => err ? next(err) : res.render('teacher', data))
   },
   editTeacher: async (req, res, next) => {
-    const lesson = await Lesson.findAll({
-      where: {
-        teacher_id: req.params.id
-      },
-      raw: true
-    })
-    const date = Array.from(lesson[0].date)
-    res.render('teacher-edit', {
-      lesson: lesson[0],
-      weekDay,
-      date
-    })
+    teacherServices.editTeacher(req, (err, data) => err ? next(err) : res.render('teacher-edit', data))
   },
   putTeacher: (req, res, next) => {
     const { name, info, style, time, link, date } = req.body
