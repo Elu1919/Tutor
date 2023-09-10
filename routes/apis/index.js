@@ -1,5 +1,6 @@
 const express = require('express')
 
+const { authenticated, authenticatedAdmin } = require('../../middleware/api-auth')
 const { apiErrorHandler } = require('../../middleware/error-handler')
 const passport = require('../../config/passport')
 
@@ -25,10 +26,10 @@ router.get('/logout', userController.logout)
 
 router.use('/auth', auth)
 
-router.use('/teachers', teacher)
-router.use('/users', user)
-router.use('/admin', admin)
-router.use('/', home)
+router.use('/teachers', authenticated, teacher)
+router.use('/users', authenticated, user)
+router.use('/admin', authenticatedAdmin, admin)
+router.use('/', authenticated, home)
 
 router.use('/', apiErrorHandler)
 
