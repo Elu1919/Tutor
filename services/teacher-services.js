@@ -17,6 +17,11 @@ const teacherServices = {
       const lesson = await Lesson.findByPk(req.params.id, {
         raw: true
       })
+      if (!lesson) {
+        const err = new Error("this teacher didn't exist!")
+        err.status = 404
+        throw err
+      }
       const records = await ClassRecord.findAll({
         where: {
           lesson_id: lesson.id
@@ -54,6 +59,11 @@ const teacherServices = {
         },
         raw: true
       })
+      if (!lesson[0]) {
+        const err = new Error("this lessen didn't exist!")
+        err.status = 404
+        throw err
+      }
       const date = Array.from(lesson[0].date)
       return cb(null, {
         lesson: lesson[0],
@@ -96,7 +106,7 @@ const teacherServices = {
       return cb(null, { weekDay })
     }
     catch (err) {
-      next(err)
+      cb(err)
     }
   },
   postNewTeacher: async (req, res, next) => {
@@ -136,6 +146,11 @@ const teacherServices = {
       const lesson = await Lesson.findByPk(req.params.id, {
         raw: true
       })
+      if (!lesson) {
+        const err = new Error("this lessen didn't exist!")
+        err.status = 404
+        throw err
+      }
       const records = await ClassRecord.findAll({
         where: {
           lesson_id: req.params.id
@@ -193,7 +208,7 @@ const teacherServices = {
       return cb(null, { lesson, records: recordData, reserves })
     }
     catch (err) {
-      next(err)
+      cb(err)
     }
   },
   putScore: async (req, res, next) => {

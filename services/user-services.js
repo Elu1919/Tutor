@@ -69,7 +69,7 @@ const userServices = {
       return cb(null, { records: recordData })
     }
     catch (err) {
-      next(err)
+      cb(err)
     }
   },
   editUser: (req, res, next) => {

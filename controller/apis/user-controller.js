@@ -40,7 +40,7 @@ const userController = {
     res.redirect('/login')
   },
   getUser: async (req, res, next) => {
-    userServices.getUser(req, (err, data) => err ? next(err) : res.json(data))
+    userServices.getUser(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   editUser: (req, res, next) => {
     res.render('user-edit')

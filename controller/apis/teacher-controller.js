@@ -14,10 +14,10 @@ const weekDay = [
 
 const teacherController = {
   getTeacher: (req, res, next) => {
-    teacherServices.getTeacher(req, (err, data) => err ? next(err) : res.json(data))
+    teacherServices.getTeacher(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   editTeacher: async (req, res, next) => {
-    teacherServices.editTeacher(req, (err, data) => err ? next(err) : res.json(data))
+    teacherServices.editTeacher(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   putTeacher: (req, res, next) => {
     const { name, info, style, time, link, date } = req.body
@@ -46,7 +46,7 @@ const teacherController = {
       .catch(err => next(err))
   },
   createNewTeacher: (req, res, next) => {
-    teacherServices.createNewTeacher(req, (err, data) => err ? next(err) : res.json(data))
+    teacherServices.createNewTeacher(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   postNewTeacher: async (req, res, next) => {
     const { info, style, time, link, date } = req.body
@@ -81,7 +81,7 @@ const teacherController = {
       .catch(err => next(err))
   },
   getLesson: async (req, res, next) => {
-    teacherServices.getLesson(req, (err, data) => err ? next(err) : res.json(data))
+    teacherServices.getLesson(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   putScore: async (req, res, next) => {
     const user = req.user ? req.user : []
@@ -141,15 +141,6 @@ const teacherController = {
     catch (err) {
       next(err)
     }
-
-
-
-
-
-
-
-
-
   }
 }
 

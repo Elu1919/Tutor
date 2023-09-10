@@ -2,7 +2,7 @@ const adminServices = require('../../services/admin-services')
 
 const adminController = {
   getUsers: (req, res, next) => {
-    adminServices.getUsers(req, (err, data) => err ? next(err) : res.json(data))
+    adminServices.getUsers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   // loginPage: (req, res, next) => {
   //   res.render('admin/login')

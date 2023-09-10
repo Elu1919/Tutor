@@ -1,7 +1,6 @@
 const express = require('express')
 
-const { generalErrorHandler } = require('../../middleware/error-handler')
-const passport = require('../../config/passport')
+const { apiErrorHandler } = require('../../middleware/error-handler')
 
 const userController = require('../../controller/apis/user-controller')
 const adminController = require('../../controller/apis/admin-controller')
@@ -32,7 +31,7 @@ router.use('/users', user)
 router.use('/admin', admin)
 router.use('/', home)
 
-router.use('/', generalErrorHandler)
+router.use('/', apiErrorHandler)
 
 
 module.exports = router
