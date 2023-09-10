@@ -1,3 +1,4 @@
+const teacherServices = require('../../services/teacher-services')
 const moment = require('moment')
 const { imgurFileHandler } = require('../../helpers/file-helpers')
 const { Lesson, User, ClassRecord } = require('../../models')
@@ -12,34 +13,8 @@ const weekDay = [
 ]
 
 const teacherController = {
-  getTeacher: async (req, res, next) => {
-    const lesson = await Lesson.findByPk(req.params.id, {
-      raw: true
-    })
-    const records = await ClassRecord.findAll({
-      where: {
-        lesson_id: lesson.id
-      },
-      order: [
-        ['start_time', 'ASC']
-      ],
-      include: [
-        { model: User, as: 'classStudent' }
-      ],
-      nest: true,
-      raw: true
-    })
-    lesson.averageScore = (lesson.total_score / lesson.score_count).toFixed(1)
-    const recordData = records.map(record => ({
-      ...record,
-      date: {
-        now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
-        end: parseInt(moment(record.end_time).format("YYYYMMDDHHmmss"))
-      },
-      start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
-      end_time: moment(record.end_time).format("HH:mm | dddd"),
-    }))
-    res.render('teacher', { lesson: lesson, records: recordData })
+  getTeacher: (req, res, next) => {
+    teacherServices.getTeacher(req, (err, data) => err ? next(err) : res.render('teacher', data))
   },
   editTeacher: async (req, res, next) => {
     const lesson = await Lesson.findAll({

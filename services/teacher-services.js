@@ -1,6 +1,6 @@
 const moment = require('moment')
-const { imgurFileHandler } = require('../../helpers/file-helpers')
-const { Lesson, User, ClassRecord } = require('../../models')
+const { imgurFileHandler } = require('../helpers/file-helpers')
+const { Lesson, User, ClassRecord } = require('../models')
 const weekDay = [
   { id: '1', date: '星期日', en: 'Sun' },
   { id: '2', date: '星期一', en: 'Mon' },
@@ -12,7 +12,7 @@ const weekDay = [
 ]
 
 const teacherServices = {
-  getTeacher: async (req, res, next) => {
+  getTeacher: async (req, cb) => {
     const lesson = await Lesson.findByPk(req.params.id, {
       raw: true
     })
@@ -39,7 +39,7 @@ const teacherServices = {
       start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
       end_time: moment(record.end_time).format("HH:mm | dddd"),
     }))
-    res.render('teacher', { lesson: lesson, records: recordData })
+    return cb(null, { lesson: lesson, records: recordData })
   },
   editTeacher: async (req, res, next) => {
     const lesson = await Lesson.findAll({
