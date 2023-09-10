@@ -73,7 +73,7 @@
       <div class="card-body">
 
         <form class="form-login"
-              action="/teachers/reserve"
+              action="/teachers/{{lesson.id}}/reserve"
               method="POST">
 
           <div class="form-row mt-3 mb-4">
@@ -82,10 +82,10 @@
                     name="reserve"
                     aria-label=".form-select-lg example"
                     required>
-              <option selected>Time</option>
-              <option value="1">09/26 (三) 18:00~18:30</option>
-              <option value="2">09/26 (三) 18:00~18:30</option>
-              <option value="3">09/26 (三) 18:00~18:30</option>
+              <option value=""
+                      selected
+                      disabled>Time</option>
+              <option value="2023,9,26,18,00">09/26 (三) 18:00~18:30</option>
             </select>
           </div>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">

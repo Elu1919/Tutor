@@ -1,6 +1,7 @@
 const moment = require('moment')
 const { imgurFileHandler } = require('../../helpers/file-helpers')
 const { Lesson, User, ClassRecord } = require('../../models')
+const lesson = require('../../models/lesson')
 const weekDay = [
   { id: '1', date: '星期日' },
   { id: '2', date: '星期一' },
@@ -163,7 +164,53 @@ const teacherController = {
     res.redirect(`/users/${user.id}`)
 
   },
-  postReserve: (req, res, next) => {
+  postReserve: async (req, res, next) => {
+    const user = req.user
+    const { reserve } = req.body
+
+    try {
+      const lesson = await Lesson.findByPk(req.params.id, { raw: true })
+      if (user.id === lesson.teacher_id) throw new Error('您不可預約自己開的課!!')
+
+      const date = reserve.split(',')
+      const start_time = new Date(date[0], date[1] - 1, date[2], date[3], date[4])
+      const end_time = new Date(date[0], date[1] - 1, date[2], date[3], date[4] + lesson.time)
+      const startTime = moment(start_time).format("YYYY-MM-DD HH:mm")
+      const endTime = moment(end_time).format("HH:mm | dddd")
+
+      const record = await ClassRecord.findAll({
+        where: {
+          lesson_id: lesson.id,
+          start_time: start_time
+        },
+        raw: true
+      })
+      if (record.length) throw new Error('此時段已被預約，請重新選擇時段!!')
+
+      await ClassRecord.create({
+        lesson_id: lesson.id,
+        teacher_id: lesson.teacher_id,
+        student_id: user.id,
+        start_time,
+        end_time,
+        score: 0,
+        comment: ''
+      })
+
+      req.flash('success_messages', `您已預約成功，上課時間：${startTime} ~ ${endTime}`)
+      res.redirect(`/teachers/${lesson.id}`)
+    }
+    catch (err) {
+      next(err)
+    }
+
+
+
+
+
+
+
+
 
   }
 }

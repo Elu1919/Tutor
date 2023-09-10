@@ -33,12 +33,16 @@ function RandomDate() {
 
 // console.log(RandomDate())
 
-for (let i = 0; i < 10; i++) {
-  const h = Math.floor(Math.random() * 4 + 18)
-  const d = Math.floor(Math.random() * 7 + 16)
-  const mon = Math.floor(Math.random() * 8)
-  const date = new Date(2023, mon, d, h)
-  console.log(mon, d, h)
-  console.log(date)
-  console.log(moment(date).format("YYYY-MM-DD HH:mm"))
-}
+// for (let i = 0; i < 10; i++) {
+//   const h = Math.floor(Math.random() * 4 + 18)
+//   const d = Math.floor(Math.random() * 7 + 16)
+//   const mon = Math.floor(Math.random() * 8)
+//   const date = new Date(2023, mon, d, h)
+//   console.log(mon, d, h)
+//   console.log(date)
+//   console.log(moment(date).format("YYYY-MM-DD HH:mm"))
+// }
+
+const str = 'Mom Get The Camera'
+const result = str.split(' ')
+console.log(result)
