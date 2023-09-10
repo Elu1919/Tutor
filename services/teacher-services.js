@@ -91,10 +91,14 @@ const teacherServices = {
       })
       .catch(err => next(err))
   },
-  createNewTeacher: (req, res, next) => {
+  createNewTeacher: async (req, cb) => {
     const user = req.user ? req.user : []
-    if (user.is_teacher) throw new Error("您已經是老師了！")
-    res.render('new-teacher', { weekDay })
+    try {
+      return cb(null, { weekDay, user })
+    }
+    catch (err) {
+      next(err)
+    }
   },
   postNewTeacher: async (req, res, next) => {
     const { info, style, time, link, date } = req.body

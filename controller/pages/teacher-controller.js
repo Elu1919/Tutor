@@ -46,9 +46,14 @@ const teacherController = {
       .catch(err => next(err))
   },
   createNewTeacher: (req, res, next) => {
-    const user = req.user
-    if (user.is_teacher) throw new Error("您已經是老師了！")
-    res.render('new-teacher', { weekDay })
+    teacherServices.createNewTeacher(req, (err, data) => {
+      if (err) return next(err)
+      if (data.user.is_teacher) {
+        req.flash('error_messages', '您已經是老師了！')
+        res.redirect('/')
+      }
+      res.render('new-teacher', data)
+    })
   },
   postNewTeacher: async (req, res, next) => {
     const { info, style, time, link, date } = req.body
