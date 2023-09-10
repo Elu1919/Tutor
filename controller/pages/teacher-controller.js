@@ -47,8 +47,9 @@ const teacherController = {
   },
   createNewTeacher: (req, res, next) => {
     teacherServices.createNewTeacher(req, (err, data) => {
+      const user = req.user
       if (err) return next(err)
-      if (data.user.is_teacher) {
+      if (user.is_teacher) {
         req.flash('error_messages', '您已經是老師了！')
         res.redirect('/')
       }

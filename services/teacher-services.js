@@ -92,9 +92,8 @@ const teacherServices = {
       .catch(err => next(err))
   },
   createNewTeacher: async (req, cb) => {
-    const user = req.user ? req.user : []
     try {
-      return cb(null, { weekDay, user })
+      return cb(null, { weekDay })
     }
     catch (err) {
       next(err)
