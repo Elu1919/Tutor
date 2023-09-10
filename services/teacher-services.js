@@ -215,24 +215,26 @@ const teacherServices = {
       cb(err)
     }
   },
-  putScore: async (req, res, next) => {
-    const user = req.user ? req.user : []
-    const { score, comment } = req.body
-    const record = await ClassRecord.findByPk(req.params.id)
-    const lesson = await Lesson.findByPk(record.lesson_id)
-    if (!record) throw new Error("classRecord didn't exist!")
-    await record.update({
-      score,
-      comment
-    })
-    await lesson.update({
-      total_score: parseInt(lesson.total_score) + parseInt(score),
-      score_count: lesson.score_count + 1
-    })
-
-    req.flash('success_messages', '評分成功！')
-    res.redirect(`/users/${user.id}`)
-
+  putScore: async (req, cb) => {
+    try {
+      const user = req.user ? req.user : []
+      const { score, comment } = req.body
+      const record = await ClassRecord.findByPk(req.params.id)
+      const lesson = await Lesson.findByPk(record.lesson_id)
+      if (!record) throw new Error("classRecord didn't exist!")
+      await record.update({
+        score,
+        comment
+      })
+      const putData = await lesson.update({
+        total_score: parseInt(lesson.total_score) + parseInt(score),
+        score_count: lesson.score_count + 1
+      })
+      return cb(null, { data: putData })
+    }
+    catch (err) {
+      cb(err)
+    }
   },
   postReserve: async (req, res, next) => {
     const user = req.user ? req.user : []
