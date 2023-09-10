@@ -1,15 +1,14 @@
 const moment = require('moment')
 const { imgurFileHandler } = require('../../helpers/file-helpers')
 const { Lesson, User, ClassRecord } = require('../../models')
-const lesson = require('../../models/lesson')
 const weekDay = [
-  { id: '1', date: '星期日' },
-  { id: '2', date: '星期一' },
-  { id: '3', date: '星期二' },
-  { id: '4', date: '星期三' },
-  { id: '5', date: '星期四' },
-  { id: '6', date: '星期五' },
-  { id: '7', date: '星期六' },
+  { id: '1', date: '星期日', en: 'Sun' },
+  { id: '2', date: '星期一', en: 'Mon' },
+  { id: '3', date: '星期二', en: 'Tue' },
+  { id: '4', date: '星期三', en: 'Wed' },
+  { id: '5', date: '星期四', en: 'Thu' },
+  { id: '6', date: '星期五', en: 'Fri' },
+  { id: '7', date: '星期六', en: 'Sat' },
 ]
 
 const teacherController = {
@@ -133,7 +132,9 @@ const teacherController = {
       nest: true,
       raw: true
     })
+
     lesson.averageScore = (lesson.total_score / lesson.score_count).toFixed(1)
+
     const recordData = records.map(record => ({
       ...record,
       date: {
@@ -143,7 +144,39 @@ const teacherController = {
       start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
       end_time: moment(record.end_time).format("HH:mm | dddd"),
     }))
-    res.render('lesson', { lesson, records: recordData })
+
+    // reserve
+    const reserves = []
+    const week = lesson.date.split('')
+    let now = moment(new Date()).format("YYYY,MM,DD,HH,mm").split(',')
+    now = now.map(d => parseInt(d))
+    for (let i = 0; i < 14; i++) {
+      const reserveDay = new Date(now[0], now[1] - 1, now[2] + i)
+      for (let w = 0; w < week.length; w++) {
+        const reserveWeek = moment(new Date(reserveDay)).format("ddd")
+        if (reserveWeek.includes(weekDay[week[w] - 1].en)) {
+          for (let t = 0; t < 240; t += lesson.time) {
+            const reserveDate = new Date(now[0], now[1] - 1, now[2] + i, 18, t)
+            let check = 0
+            await records.map(record => {
+              const recordTime = moment(record.start_time).format("YYYYMMDDHHmm")
+              const reserveTime = moment(reserveDate).format("YYYYMMDDHHmm")
+              if (recordTime === reserveTime) check = 1
+            })
+            if (check === 0) {
+              const endTime = new Date(now[0], now[1] - 1, now[2] + i, 18, t + lesson.time)
+              const date = {
+                startTime: moment(reserveDate).format("MM/DD HH:mm"),
+                endTime: moment(endTime).format("HH:mm | ddd"),
+                value: moment(reserveDate).format("YYYY,MM,DD,HH,mm")
+              }
+              reserves.push(date)
+            }
+          }
+        }
+      }
+    }
+    res.render('lesson', { lesson, records: recordData, reserves })
   },
   putScore: async (req, res, next) => {
     const user = req.user

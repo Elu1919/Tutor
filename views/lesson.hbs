@@ -85,7 +85,9 @@
               <option value=""
                       selected
                       disabled>Time</option>
-              <option value="2023,9,26,18,00">09/26 (三) 18:00~18:30</option>
+              {{#each reserves}}
+              <option value="{{this.value}}">{{this.startTime}}~{{this.endTime}}</option>
+              {{/each}}
             </select>
           </div>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
