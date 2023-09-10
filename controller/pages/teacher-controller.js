@@ -89,64 +89,7 @@ const teacherController = {
       .catch(err => next(err))
   },
   getLesson: async (req, res, next) => {
-    const lesson = await Lesson.findByPk(req.params.id, {
-      raw: true
-    })
-    const records = await ClassRecord.findAll({
-      where: {
-        lesson_id: req.params.id
-      },
-      order: [
-        ['start_time', 'ASC']
-      ],
-      nest: true,
-      raw: true
-    })
-
-    lesson.averageScore = (lesson.total_score / lesson.score_count).toFixed(1)
-
-    const recordData = records.map(record => ({
-      ...record,
-      date: {
-        now: parseInt(moment(new Date()).format("YYYYMMDDHHmmss")),
-        end: parseInt(moment(record.end_time).format("YYYYMMDDHHmmss"))
-      },
-      start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
-      end_time: moment(record.end_time).format("HH:mm | dddd"),
-    }))
-
-    // reserve
-    const reserves = []
-    const week = lesson.date.split('')
-    let now = moment(new Date()).format("YYYY,MM,DD,HH,mm").split(',')
-    now = now.map(d => parseInt(d))
-    for (let i = 0; i < 14; i++) {
-      const reserveDay = new Date(now[0], now[1] - 1, now[2] + i)
-      for (let w = 0; w < week.length; w++) {
-        const reserveWeek = moment(new Date(reserveDay)).format("ddd")
-        if (reserveWeek.includes(weekDay[week[w] - 1].en)) {
-          for (let t = 0; t < 240; t += lesson.time) {
-            const reserveDate = new Date(now[0], now[1] - 1, now[2] + i, 18, t)
-            let check = 0
-            await records.map(record => {
-              const recordTime = moment(record.start_time).format("YYYYMMDDHHmm")
-              const reserveTime = moment(reserveDate).format("YYYYMMDDHHmm")
-              if (recordTime === reserveTime) check = 1
-            })
-            if (check === 0) {
-              const endTime = new Date(now[0], now[1] - 1, now[2] + i, 18, t + lesson.time)
-              const date = {
-                startTime: moment(reserveDate).format("MM/DD HH:mm"),
-                endTime: moment(endTime).format("HH:mm | ddd"),
-                value: moment(reserveDate).format("YYYY,MM,DD,HH,mm")
-              }
-              reserves.push(date)
-            }
-          }
-        }
-      }
-    }
-    res.render('lesson', { lesson, records: recordData, reserves })
+    teacherServices.getLesson(req, (err, data) => err ? next(err) : res.render('lesson', data))
   },
   putScore: async (req, res, next) => {
     const user = req.user
