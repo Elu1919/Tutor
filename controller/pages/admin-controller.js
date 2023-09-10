@@ -1,27 +1,8 @@
-const { User } = require('../../models')
-const { getOffset, getPagination } = require('../../helpers/pagination-helper')
+const adminServices = require('../../services/admin-services')
 
 const adminController = {
   getUsers: (req, res, next) => {
-    const DEFAULT_LIMIT = 10
-    const page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || DEFAULT_LIMIT
-    const offset = getOffset(limit, page)
-
-    return User.findAndCountAll({
-      limit,
-      offset,
-      nest: true,
-      raw: true
-    })
-      .then(users => {
-        const data = users.rows
-        res.render('admin/users', {
-          users: data,
-          pagination: getPagination(limit, page, users.count)
-        })
-      })
-      .catch(err => next(err))
+    adminServices.getUsers(req, (err, data) => err ? next(err) : res.render('admin/users', data))
   },
   loginPage: (req, res, next) => {
     res.render('admin/login')

@@ -1,8 +1,8 @@
-const { User } = require('../../models')
-const { getOffset, getPagination } = require('../../helpers/pagination-helper')
+const { User } = require('../models')
+const { getOffset, getPagination } = require('../helpers/pagination-helper')
 
 const adminServices = {
-  getUsers: (req, res, next) => {
+  getUsers: (req, cb) => {
     const DEFAULT_LIMIT = 10
     const page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || DEFAULT_LIMIT
@@ -16,12 +16,12 @@ const adminServices = {
     })
       .then(users => {
         const data = users.rows
-        res.render('admin/users', {
+        return cb(null, {
           users: data,
           pagination: getPagination(limit, page, users.count)
         })
       })
-      .catch(err => next(err))
+      .catch(cb => next(cb))
   },
   loginPage: (req, res, next) => {
     res.render('admin/login')
