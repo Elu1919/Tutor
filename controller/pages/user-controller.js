@@ -33,6 +33,8 @@ const userController = {
     userServices.getUser(req, (err, data) => err ? next(err) : res.render('user', data))
   },
   editUser: (req, res, next) => {
+    const user = req.user
+    if (user.id !== parseInt(req.params.id)) throw new Error("不可編輯別人的個人資訊!!")
     res.render('user-edit')
   },
   putUser: (req, res, next) => {

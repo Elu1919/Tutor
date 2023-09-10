@@ -14,6 +14,8 @@ const weekDay = [
 const teacherServices = {
   getTeacher: async (req, cb) => {
     try {
+      const user = req.user ? req.user : []
+      if (user.id !== parseInt(req.params.id)) throw new Error("不可觀看別人的個人課程資訊!!")
       const lesson = await Lesson.findAll({
         where: {
           teacher_id: req.params.id
@@ -56,6 +58,8 @@ const teacherServices = {
   },
   editTeacher: async (req, cb) => {
     try {
+      const user = req.user ? req.user : []
+      if (user.id !== parseInt(req.params.id)) throw new Error("不可編輯別人的開課資訊!!")
       const lesson = await Lesson.findAll({
         where: {
           teacher_id: req.params.id
