@@ -18,7 +18,6 @@ const router = express.Router()
 router.post('/login/:admin', passport.authenticate('local', { session: false }), adminController.login)
 router.post('/login', passport.authenticate('local', { session: false }), userController.login)
 
-router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
 
 router.get('/logout/admin', adminController.logout)

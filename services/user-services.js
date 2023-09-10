@@ -4,11 +4,7 @@ const { imgurFileHandler } = require('../helpers/file-helpers')
 const { User, ClassRecord, Lesson } = require('../models')
 
 const userServices = {
-  login: (req, res, next) => {
-    req.flash('success_messages', '成功登入！')
-    res.redirect('/')
-  },
-  signUp: (req, res, next) => {
+  signUp: (req, cb) => {
     if (req.body.password !== req.body.passwordCheck) throw new Error('密碼 與 確認密碼 需要輸入相同！')
     User.findOne({ where: { email: req.body.email } })
       .then(user => {
@@ -20,11 +16,10 @@ const userServices = {
         email: req.body.email,
         password: hash
       }))
-      .then(() => {
-        req.flash('success_messages', '成功註冊帳號！')
-        res.redirect('/login')
+      .then(user => {
+        return cb(null, { date: user })
       })
-      .catch(err => next(err))
+      .catch(err => cb(err))
   },
   logout: (req, res, next) => {
     req.logout(err => {
