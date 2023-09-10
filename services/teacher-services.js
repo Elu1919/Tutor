@@ -56,17 +56,20 @@ const teacherServices = {
   },
   editTeacher: async (req, cb) => {
     try {
-      const lesson = await Lesson.findByPk(req.params.id, {
+      const lesson = await Lesson.findAll({
+        where: {
+          teacher_id: req.params.id
+        },
         raw: true
       })
-      if (!lesson) {
+      if (!lesson[0]) {
         const err = new Error("this lessen didn't exist!")
         err.status = 404
         throw err
       }
-      const date = Array.from(lesson.date)
+      const date = Array.from(lesson[0].date)
       return cb(null, {
-        lesson: lesson,
+        lesson: lesson[0],
         weekDay,
         date
       })
@@ -80,19 +83,23 @@ const teacherServices = {
     const { file } = req
     if (!date) throw new Error('請選擇 開放時間 !!')
     Promise.all([
-      Lesson.findByPk(req.params.id),
+      Lesson.findAll({
+        where: {
+          teacher_id: req.params.id
+        }
+      }),
       imgurFileHandler(file)
     ])
       .then(([lesson, filePath]) => {
-        if (!lesson) throw new Error("Lesson didn't exist!")
-        return lesson.update({
+        if (!lesson[0]) throw new Error("Lesson didn't exist!")
+        return lesson[0].update({
           name,
           info,
           style,
           time,
           link,
           date: date.toString().replaceAll(',', ''),
-          img: filePath || lesson.img
+          img: filePath || lesson[0].img
         })
       })
       .then(putLesson => {
