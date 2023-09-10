@@ -1,6 +1,7 @@
 const moment = require('moment')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 const { Lesson, User, ClassRecord } = require('../models')
+const { param } = require('../routes/pages')
 const weekDay = [
   { id: '1', date: '星期日', en: 'Sun' },
   { id: '2', date: '星期一', en: 'Mon' },
@@ -14,17 +15,20 @@ const weekDay = [
 const teacherServices = {
   getTeacher: async (req, cb) => {
     try {
-      const lesson = await Lesson.findByPk(req.params.id, {
+      const lesson = await Lesson.findAll({
+        where: {
+          teacher_id: req.params.id
+        },
         raw: true
       })
-      if (!lesson) {
+      if (!lesson[0]) {
         const err = new Error("this teacher didn't exist!")
         err.status = 404
         throw err
       }
       const records = await ClassRecord.findAll({
         where: {
-          lesson_id: lesson.id
+          lesson_id: lesson[0].id
         },
         order: [
           ['start_time', 'ASC']
@@ -35,7 +39,7 @@ const teacherServices = {
         nest: true,
         raw: true
       })
-      lesson.averageScore = (lesson.total_score / lesson.score_count).toFixed(1)
+      lesson[0].averageScore = (lesson[0].total_score / lesson[0].score_count).toFixed(1)
       const recordData = records.map(record => ({
         ...record,
         date: {
@@ -45,7 +49,7 @@ const teacherServices = {
         start_time: moment(record.start_time).format("YYYY-MM-DD HH:mm"),
         end_time: moment(record.end_time).format("HH:mm | dddd"),
       }))
-      return cb(null, { lesson: lesson, records: recordData })
+      return cb(null, { lesson: lesson[0], records: recordData })
     }
     catch (err) {
       cb(err)
@@ -53,20 +57,17 @@ const teacherServices = {
   },
   editTeacher: async (req, cb) => {
     try {
-      const lesson = await Lesson.findAll({
-        where: {
-          teacher_id: req.params.id
-        },
+      const lesson = await Lesson.findByPk(req.params.id, {
         raw: true
       })
-      if (!lesson[0]) {
+      if (!lesson) {
         const err = new Error("this lessen didn't exist!")
         err.status = 404
         throw err
       }
-      const date = Array.from(lesson[0].date)
+      const date = Array.from(lesson.date)
       return cb(null, {
-        lesson: lesson[0],
+        lesson: lesson,
         weekDay,
         date
       })
@@ -109,37 +110,41 @@ const teacherServices = {
       cb(err)
     }
   },
-  postNewTeacher: async (req, res, next) => {
-    const { info, style, time, link, date } = req.body
-    const user = req.user ? req.user : []
+  postNewTeacher: async (req, cb) => {
+    try {
+      const { info, style, time, link, date } = req.body
+      const user = req.user ? req.user : []
 
-    if (!date) throw new Error('請選擇 開放時間 !!')
-    if (time === '請選擇時間') throw new Error('請選擇 單堂課時間 !!')
+      if (!date) throw new Error('請選擇 開放時間 !!')
 
-    await Lesson.create({
-      teacher_id: user.id,
-      name: user.name,
-      info,
-      style,
-      time,
-      link,
-      date: date.toString().replaceAll(',', ''),
-      img: user.avatar,
-      total_score: 0,
-      score_count: 0,
-    })
-      .then(async () => {
-        const student = await User.findByPk(user.id)
-        if (!student) throw new Error("User didn't exist!")
-        return await student.update({
-          is_teacher: true
-        })
+      const newTeacher = await Lesson.create({
+        teacher_id: user.id,
+        name: user.name,
+        info,
+        style,
+        time,
+        link,
+        date: date.toString().replaceAll(',', ''),
+        img: user.avatar,
+        total_score: 0,
+        score_count: 0,
       })
-      .then(() => {
-        req.flash('success_messages', '您已成為老師！')
-        res.redirect(`/teachers/${user.id}/personal`)
+
+      const student = await User.findByPk(user.id)
+      if (!student) {
+        const err = new Error("user didn't exist!")
+        err.status = 404
+        throw err
+      }
+      await student.update({
+        is_teacher: true
       })
-      .catch(err => next(err))
+
+      return cb(null, { teacher: newTeacher })
+    }
+    catch (err) {
+      cb(err)
+    }
   },
   getLesson: async (req, cb) => {
     try {

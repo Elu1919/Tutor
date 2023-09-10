@@ -57,36 +57,13 @@ const teacherController = {
     })
   },
   postNewTeacher: async (req, res, next) => {
-    const { info, style, time, link, date } = req.body
-    const user = req.user
-
-    if (!date) throw new Error('請選擇 開放時間 !!')
-    if (time === '請選擇時間') throw new Error('請選擇 單堂課時間 !!')
-
-    await Lesson.create({
-      teacher_id: user.id,
-      name: user.name,
-      info,
-      style,
-      time,
-      link,
-      date: date.toString().replaceAll(',', ''),
-      img: user.avatar,
-      total_score: 0,
-      score_count: 0,
+    teacherServices.postNewTeacher(req, (err, data) => {
+      const user = req.user
+      if (err) return next(err)
+      req.flash('success_messages', '您已成為老師！')
+      req.session.createdData = data
+      res.redirect(`/teachers/${user.id}/personal`)
     })
-      .then(async () => {
-        const student = await User.findByPk(user.id)
-        if (!student) throw new Error("User didn't exist!")
-        return await student.update({
-          is_teacher: true
-        })
-      })
-      .then(() => {
-        req.flash('success_messages', '您已成為老師！')
-        res.redirect(`/teachers/${user.id}/personal`)
-      })
-      .catch(err => next(err))
   },
   getLesson: async (req, res, next) => {
     teacherServices.getLesson(req, (err, data) => err ? next(err) : res.render('lesson', data))
