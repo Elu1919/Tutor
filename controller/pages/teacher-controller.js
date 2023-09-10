@@ -20,30 +20,12 @@ const teacherController = {
     teacherServices.editTeacher(req, (err, data) => err ? next(err) : res.render('teacher-edit', data))
   },
   putTeacher: (req, res, next) => {
-    const { name, info, style, time, link, date } = req.body
-    const { file } = req
-    if (!date) throw new Error('請選擇 開放時間 !!')
-    Promise.all([
-      Lesson.findByPk(req.params.id),
-      imgurFileHandler(file)
-    ])
-      .then(([lesson, filePath]) => {
-        if (!lesson) throw new Error("Lesson didn't exist!")
-        return lesson.update({
-          name,
-          info,
-          style,
-          time,
-          link,
-          date: date.toString().replaceAll(',', ''),
-          img: filePath || lesson.img
-        })
-      })
-      .then(() => {
-        req.flash('success_messages', '資訊修改成功！')
-        res.redirect(`/teachers/${req.params.id}/personal`)
-      })
-      .catch(err => next(err))
+    teacherServices.putTeacher(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_messages', '資訊修改成功！')
+      req.session.update = data
+      res.redirect(`/teachers/${req.params.id}/personal`)
+    })
   },
   createNewTeacher: (req, res, next) => {
     teacherServices.createNewTeacher(req, (err, data) => {

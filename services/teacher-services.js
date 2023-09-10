@@ -76,7 +76,7 @@ const teacherServices = {
       cb(err)
     }
   },
-  putTeacher: (req, res, next) => {
+  putTeacher: (req, cb) => {
     const { name, info, style, time, link, date } = req.body
     const { file } = req
     if (!date) throw new Error('請選擇 開放時間 !!')
@@ -96,11 +96,10 @@ const teacherServices = {
           img: filePath || lesson.img
         })
       })
-      .then(() => {
-        req.flash('success_messages', '資訊修改成功！')
-        res.redirect(`/teachers/${req.params.id}/personal`)
+      .then(putLesson => {
+        cb(null, { lesson: putLesson })
       })
-      .catch(err => next(err))
+      .catch(err => cb(err))
   },
   createNewTeacher: async (req, cb) => {
     try {
