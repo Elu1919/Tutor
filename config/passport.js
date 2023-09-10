@@ -87,9 +87,14 @@ passport.use(
     (accessToken, refreshToken, profile, done) => {
       const { name, email } = profile._json
 
-      User.findByPk(email, { raw: true })
+      User.findOne({
+        where: { email }
+      })
         .then(user => {
-          if (user) return done(null, user)
+          if (user) {
+            user.strategy = 'localStrategylocal'
+            return done(null, user)
+          }
           const randomPassword = Math.random().toString(36).slice(-8)
           bcrypt
             .genSalt(10)
@@ -99,7 +104,10 @@ passport.use(
               email,
               password: hash
             }))
-            .then(user => done(null, user))
+            .then(user => {
+              user.strategy = 'localStrategylocal'
+              done(null, user)
+            })
             .catch(err => done(err, false))
         })
     }
