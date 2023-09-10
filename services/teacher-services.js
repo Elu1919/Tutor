@@ -1,7 +1,6 @@
 const moment = require('moment')
 const { imgurFileHandler } = require('../helpers/file-helpers')
 const { Lesson, User, ClassRecord } = require('../models')
-const { param } = require('../routes/pages')
 const weekDay = [
   { id: '1', date: '星期日', en: 'Sun' },
   { id: '2', date: '星期一', en: 'Mon' },
@@ -236,7 +235,7 @@ const teacherServices = {
       cb(err)
     }
   },
-  postReserve: async (req, res, next) => {
+  postReserve: async (req, cb) => {
     const user = req.user ? req.user : []
     const { reserve } = req.body
 
@@ -259,7 +258,7 @@ const teacherServices = {
       })
       if (record.length) throw new Error('此時段已被預約，請重新選擇時段!!')
 
-      await ClassRecord.create({
+      const postData = await ClassRecord.create({
         lesson_id: lesson.id,
         teacher_id: lesson.teacher_id,
         student_id: user.id,
@@ -269,21 +268,11 @@ const teacherServices = {
         comment: ''
       })
 
-      req.flash('success_messages', `您已預約成功，上課時間：${startTime} ~ ${endTime}`)
-      res.redirect(`/teachers/${lesson.id}`)
+      return cb(null, { date: postData, startTime, endTime, lessonId: lesson.id })
     }
     catch (err) {
-      next(err)
+      cb(err)
     }
-
-
-
-
-
-
-
-
-
   }
 }
 
