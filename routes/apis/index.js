@@ -14,9 +14,7 @@ const user = require('./modules/user')
 
 const router = express.Router()
 
-// router.get('/login', userController.loginPage)
-
-// router.post('/login/:admin', passport.authenticate('local', { failureRedirect: '/login/admin', failureFlash: true }), adminController.login)
+router.post('/login/:admin', passport.authenticate('local', { session: false }), adminController.login)
 router.post('/login', passport.authenticate('local', { session: false }), userController.login)
 
 router.get('/signup', userController.signUpPage)
