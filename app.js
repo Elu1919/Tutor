@@ -4,13 +4,14 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // require
+const path = require('path')
 const express = require('express')
 const handlebars = require('express-handlebars')
 const flash = require('connect-flash')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
-const path = require('path')
+
 
 const passport = require('./config/passport')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
