@@ -20,9 +20,6 @@ router.post('/login', passport.authenticate('local', { session: false }), userCo
 
 router.post('/signup', userController.signUp)
 
-router.get('/logout/admin', adminController.logout)
-router.get('/logout', userController.logout)
-
 router.use('/auth', auth)
 
 router.use('/teachers', authenticated, teacher)

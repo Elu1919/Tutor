@@ -5,9 +5,6 @@ const adminController = {
   getUsers: (req, res, next) => {
     adminServices.getUsers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
-  // loginPage: (req, res, next) => {
-  //   res.render('admin/login')
-  // },
   login: (req, res, next) => {
     try {
       const userData = req.user.toJSON()
@@ -23,12 +20,6 @@ const adminController = {
     } catch (err) {
       next(err)
     }
-  },
-  logout: (req, res, next) => {
-    req.logout(err => {
-      if (err) return next(err)
-    })
-    res.redirect('/login/admin')
   }
 }
 

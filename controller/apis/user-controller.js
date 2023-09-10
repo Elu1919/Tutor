@@ -23,12 +23,6 @@ const userController = {
   signUp: (req, res, next) => {
     userServices.signUp(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
-  logout: (req, res, next) => {
-    req.logout(err => {
-      if (err) return next(err)
-    })
-    res.redirect('/login')
-  },
   getUser: async (req, res, next) => {
     userServices.getUser(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
