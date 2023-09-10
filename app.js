@@ -15,7 +15,7 @@ const path = require('path')
 const passport = require('./config/passport')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const { getUser } = require('./helpers/auth-helpers')
-const { pages } = require('./routes')
+const { pages, apis } = require('./routes')
 
 // setting
 const app = express()
@@ -41,6 +41,7 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use('/api', apis)
 app.use(pages)
 
 // listening on app
