@@ -58,24 +58,6 @@ passport.use(new JWTStrategy(jwtOptions, (jwtPayload, cb) => {
     .catch(err => cb(err))
 }))
 
-// serialize and deserialize user
-passport.serializeUser((user, cb) => {
-  cb(null, user.id)
-})
-passport.deserializeUser((id, cb) => {
-  if (isAdmin <= 0) {
-    User.findByPk(id).then(user => {
-      user = user.toJSON()
-      return cb(null, user)
-    })
-  } else {
-    Admin.findByPk(id).then(admin => {
-      admin = admin.toJSON()
-      return cb(null, admin)
-    })
-  }
-})
-
 // Google Login
 passport.use(
   new GoogleStrategy(
@@ -86,7 +68,7 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       const { name, email } = profile._json
-
+      isAdmin = 0
       User.findOne({
         where: { email }
       })
@@ -113,5 +95,24 @@ passport.use(
     }
   )
 )
+
+// serialize and deserialize user
+passport.serializeUser((user, cb) => {
+  cb(null, user.id)
+})
+passport.deserializeUser((id, cb) => {
+  if (isAdmin <= 0) {
+    User.findByPk(id).then(user => {
+      user = user.toJSON()
+      return cb(null, user)
+    })
+  } else {
+    Admin.findByPk(id).then(admin => {
+      admin = admin.toJSON()
+      return cb(null, admin)
+    })
+  }
+})
+
 
 module.exports = passport
