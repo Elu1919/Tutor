@@ -26,19 +26,31 @@
    npx sequelize db:seed:all
    ```
 
-4. 安裝完畢後，繼續輸入：
+4. 安裝完畢後，新建「.env」文本，設定以下環境變數：
+
+   ```bash
+   PORT=
+   SESSION_SECRET=
+   GOOGLE_CLIENT_ID=
+   GOOGLE_CLIENT_SECRET=
+   GOOGLE_CALLBACK=
+   IMGUR_CLIENT_ID=
+   JWT_SECRET=
+   ```
+   
+5. 設定完畢後，繼續在終端機輸入：
 
    ```bash
    npm run dev
    ```
 
-5. 若看見此行訊息則代表順利運行，打開瀏覽器進入到以下網址
+6. 若看見此行訊息則代表順利運行，打開瀏覽器進入到以下網址
 
    ```bash
    Listening on http://localhost:3000
    ```
 
-6. 若欲暫停使用
+7. 若欲暫停使用
 
    ```bash
    ctrl + c
